@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    tools:context=".SplashActivity">
+    tools:context=".LoginActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Splash"
+        android:text="Login"
         android:layout_margin="50dp"
         android:textSize="30dp"/>
 
