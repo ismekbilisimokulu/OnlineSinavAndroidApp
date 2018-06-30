@@ -1,4 +1,4 @@
-package com.ismek.onlinesinav.SharedPreferences;
+package com.ismek.onlinesinav.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
