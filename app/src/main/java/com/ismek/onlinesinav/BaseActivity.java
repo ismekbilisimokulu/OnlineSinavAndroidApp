@@ -3,6 +3,9 @@ package com.ismek.onlinesinav;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
@@ -11,17 +14,27 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.ismek.onlinesinav.util.SharedPreferenceUtils;
+import com.ismek.onlinesinav.view.IsmekCustomAlertDialog;
+import com.ismek.onlinesinav.view.IsmekCustomProgressDialog;
+
 import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity{
 
-    private ProgressDialog progressDialog;
+    public IsmekCustomProgressDialog progressDialog;
+    public IsmekCustomAlertDialog alertDialog;
+    public SharedPreferenceUtils preferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentView());
         ButterKnife.bind(this);
+        progressDialog = new IsmekCustomProgressDialog(this, R.style.CustomDialogTheme);
+        alertDialog = new IsmekCustomAlertDialog(this);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        preferences = SharedPreferenceUtils.getInstance(this);
         onViewReady(savedInstanceState, getIntent());
     }
 
@@ -39,7 +52,6 @@ public abstract class BaseActivity extends AppCompatActivity{
     public void noInternetConnectionAvailable() {
         showToast(getString(R.string.noConnection));
     }
-
 
     protected void showAlertDialog(String msg) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
