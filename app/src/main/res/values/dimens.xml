@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="inputHeight">60dp</dimen>
+    <dimen name="inputParentMargin">40dp</dimen>
+    <dimen name="componentBetweenMargin">20dp</dimen>
+    <dimen name="inputInnerPadding">10dp</dimen>
+    <dimen name="loginBtnWidth">151dp</dimen>
+    <dimen name="loginBtnHeight">69dp</dimen>
+    <dimen name="splash_height">75dp</dimen>
+    <dimen name="splash_width">240dp</dimen>
+    <dimen name="title_login_text_size">22sp</dimen>
+</resources>

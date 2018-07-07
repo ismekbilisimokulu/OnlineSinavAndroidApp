@@ -1,21 +1,20 @@
 package com.ismek.onlinesinav;
 
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ismek.onlinesinav.util.SharedPreferenceUtils;
-import com.ismek.onlinesinav.view.IsmekCustomAlertDialog;
 import com.ismek.onlinesinav.view.IsmekCustomProgressDialog;
 
 import butterknife.ButterKnife;
@@ -23,17 +22,16 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity{
 
     public IsmekCustomProgressDialog progressDialog;
-    public IsmekCustomAlertDialog alertDialog;
     public SharedPreferenceUtils preferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(getContentView());
+
         ButterKnife.bind(this);
         progressDialog = new IsmekCustomProgressDialog(this, R.style.CustomDialogTheme);
-        alertDialog = new IsmekCustomAlertDialog(this);
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         preferences = SharedPreferenceUtils.getInstance(this);
         onViewReady(savedInstanceState, getIntent());
     }
@@ -49,27 +47,48 @@ public abstract class BaseActivity extends AppCompatActivity{
         super.onDestroy();
     }
 
-    public void noInternetConnectionAvailable() {
-        showToast(getString(R.string.noConnection));
+    protected void showToast(String mToastMsg) {
+        Toast.makeText(this, mToastMsg, Toast.LENGTH_LONG).show();
     }
 
-    protected void showAlertDialog(String msg) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        dialogBuilder.setTitle(null);
-        dialogBuilder.setIcon(R.mipmap.ic_launcher);
-        dialogBuilder.setMessage(msg);
-        dialogBuilder.setPositiveButton(getString(R.string.dialogOkButton), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+    public Dialog showAlertDialog(String message, int btnYesVisibility, int btnNoVisibility, String positiveText, String negativeText) {
+
+        // dialog nesnesi oluştur ve layout dosyasına bağlan
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.ismek_custom_alert_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        // custom dialog elemanlarını tanımla - text, image ve button
+        Button btnYes = (Button) dialog.findViewById(R.id.btn_yes);
+        Button btnNo = (Button) dialog.findViewById(R.id.btn_no);
+        btnYes.setVisibility(btnYesVisibility);
+        btnNo.setVisibility(btnNoVisibility);
+        btnYes.setText(positiveText);
+        btnNo.setText(negativeText);
+
+        TextView txtMessage = (TextView) dialog.findViewById(R.id.txtMessage);
+
+
+        // custom dialog elemanlarına değer ataması yap - text, image
+        txtMessage.setText(message);
+
+        // tamam butonunun tıklanma olayları
+        btnYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        // iptal butonunun tıklanma olayları
+        btnNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
             }
         });
 
-        dialogBuilder.setCancelable(false);
-        dialogBuilder.show();
-    }
-
-    protected void showToast(String mToastMsg) {
-        Toast.makeText(this, mToastMsg, Toast.LENGTH_LONG).show();
+        dialog.show();
+        return dialog;
     }
 
     protected abstract int getContentView();

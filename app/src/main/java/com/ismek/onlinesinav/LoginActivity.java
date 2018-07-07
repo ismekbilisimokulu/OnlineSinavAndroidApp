@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.ismek.onlinesinav.entity.Kullanici;
+import com.ismek.onlinesinav.util.ApplicationConstant;
 import com.ismek.onlinesinav.util.Utils;
 import com.ismek.onlinesinav.ws.ApiClient;
 import com.ismek.onlinesinav.ws.IRestService;
@@ -53,12 +54,23 @@ public class LoginActivity extends BaseActivity {
 
                 if (resp != null)
                     Log.d("ISMEKKK",resp.toString());
+                else{
+
+                }
             }
 
             @Override
             public void onFailure(Call<Kullanici> call, Throwable t) {
-                Log.d("ISMEKKK",t.getMessage());
+
             }
         });
+    }
+
+    public void login(View view){
+        if (ApplicationConstant.ISMEK_IP.equals(preferences.getStringValue("ismek_ip",""))){
+
+        }else{
+            showAlertDialog(getString(R.string.mes_access_denied),View.VISIBLE,View.GONE,getString(R.string.ok),"");
+        }
     }
 }

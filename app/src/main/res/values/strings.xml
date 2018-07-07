@@ -2,4 +2,17 @@
     <string name="app_name">OnlineSinavAndroidApp</string>
     <string name="dialogOkButton">Tamam</string>
     <string name="noConnection">İnternet Bağlantısı Yok</string>
+
+    <string name="title_login">Online Sınav Giriş Sistemi</string>
+
+
+    <string name="hint_tc_no">TC Kimlik No</string>
+    <string name="hint_telefon">Telefon No</string>
+
+
+    <string name="mes_access_denied">Sınav merkezi dışında giriş yapamazsınız!</string>
+
+
+    <string name="ok">Tamam</string>
+
 </resources>
