@@ -6,19 +6,12 @@
     android:background="@color/screenBg"
     tools:context=".LoginActivity">
 
-
-    <include android:id="@+id/header" layout="@layout/header"></include>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/title_login"
-        android:padding="@dimen/inputParentMargin"
-        android:layout_below="@+id/header"
-        android:gravity="center"
-        android:textSize="@dimen/title_login_text_size"
-        android:textStyle="bold"
-        android:textColor="@color/black"
+    <ImageView
+        android:layout_width="@dimen/logo_width"
+        android:layout_height="@dimen/logo_height"
+        android:background="@mipmap/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         />
 
     <LinearLayout
@@ -38,6 +31,7 @@
             android:maxLength="11"
             android:padding="@dimen/inputInnerPadding"
             android:layout_marginBottom="@dimen/componentBetweenMargin"
+            android:drawableLeft="@drawable/ic_person_black_24dp"
             android:background="@mipmap/textarea"/>
 
         <EditText
@@ -50,6 +44,7 @@
             android:maxLength="11"
             android:inputType="numberPassword"
             android:layout_marginBottom="@dimen/componentBetweenMargin"
+            android:drawableLeft="@drawable/ic_phone_android_black_24dp"
             android:background="@mipmap/textarea" />
 
         <ImageButton

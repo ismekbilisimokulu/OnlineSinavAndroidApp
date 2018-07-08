@@ -9,9 +9,9 @@
 
 
     <ImageView
-        android:layout_width="@dimen/splash_width"
-        android:layout_height="@dimen/splash_height"
-        android:background="@mipmap/header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/splash"
         android:layout_centerInParent="true"/>
 
 </RelativeLayout>
