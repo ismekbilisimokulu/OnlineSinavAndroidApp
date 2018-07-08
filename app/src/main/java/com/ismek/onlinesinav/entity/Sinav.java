@@ -1,9 +1,12 @@
 package com.ismek.onlinesinav.entity;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
-public class Sinav {
+public class Sinav implements Parcelable{
 
     private int sinavId;
 
@@ -35,6 +38,44 @@ public class Sinav {
 
 
     public Sinav(){}
+
+    protected Sinav(Parcel in) {
+        sinavId = in.readInt();
+        sinavAdi = in.readString();
+        sinavSuresi = in.readInt();
+        soruSayisi = in.readInt();
+        sinavSalonu = in.readString();
+        katkiYuzdesi = in.readFloat();
+        isAktif = in.readByte() != 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(sinavId);
+        dest.writeString(sinavAdi);
+        dest.writeInt(sinavSuresi);
+        dest.writeInt(soruSayisi);
+        dest.writeString(sinavSalonu);
+        dest.writeFloat(katkiYuzdesi);
+        dest.writeByte((byte) (isAktif ? 1 : 0));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Sinav> CREATOR = new Creator<Sinav>() {
+        @Override
+        public Sinav createFromParcel(Parcel in) {
+            return new Sinav(in);
+        }
+
+        @Override
+        public Sinav[] newArray(int size) {
+            return new Sinav[size];
+        }
+    };
 
     public int getSinavId() {
         return sinavId;
@@ -131,4 +172,5 @@ public class Sinav {
     public void setBransId(Brans bransId) {
         this.bransId = bransId;
     }
+
 }

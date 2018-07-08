@@ -35,7 +35,11 @@ public class MainActivity extends BaseActivity {
         adapter = new SinavListAdapter(MainActivity.this, sinavList, new SinavListener() {
             @Override
             public void onClicked(View view, int position) {
-
+                Intent i = new Intent(MainActivity.this,Sinav.class);
+                Bundle b = new Bundle();
+                b.putParcelable("sinav",sinavList.get(position));
+                i.putExtra("bundle",b);
+                startActivity(i);
             }
         });
 
