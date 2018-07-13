@@ -4,13 +4,141 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SinavActivity">
+    tools:context=".SinavActivity"
+    android:background="@mipmap/arkaplansadecelogo">
 
 <include android:id="@+id/header" layout="@layout/header"></include>
-    <WebView
-        android:id="@+id/webView"
+
+    <RelativeLayout
+        android:id="@+id/rlWebView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/webview_height"
+        android:layout_below="@id/header">
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/webview_height"
+            android:background="@mipmap/sorualani">
+        </WebView>
+
+        <TextView
+            android:id="@+id/txtSure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:background="@drawable/right_corner_radius"
+            android:textStyle="bold"
+            android:padding="6dip"
+            android:text="00:55:24"
+            android:layout_marginRight="3dp"
+            android:layout_alignParentRight="true"
+            android:textSize="20sp"/>
+    </RelativeLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/ll_choices"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/header">
-    </WebView>
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="20dp"
+        android:layout_below="@id/rlWebView">
+
+        <ImageButton
+            android:id="@+id/btn_a"
+            android:layout_width="@dimen/choices_width"
+            android:layout_height="@dimen/choices_height"
+            android:layout_marginRight="20dp"
+            android:onClick="choiceA"
+            android:background="@drawable/a_selector"/>
+
+        <ImageButton
+            android:id="@+id/btn_b"
+            android:layout_width="@dimen/choices_width"
+            android:layout_height="@dimen/choices_height"
+            android:layout_marginRight="20dp"
+            android:onClick="choiceB"
+            android:background="@drawable/b_selector"
+            android:layout_toRightOf="@id/btn_a"/>
+
+        <ImageButton
+            android:id="@+id/btn_c"
+            android:layout_width="@dimen/choices_width"
+            android:layout_height="@dimen/choices_height"
+            android:layout_marginRight="20dp"
+            android:onClick="choiceC"
+            android:background="@drawable/c_selector"
+            android:layout_toRightOf="@id/btn_b"/>
+
+        <ImageButton
+            android:id="@+id/btn_d"
+            android:layout_width="@dimen/choices_width"
+            android:layout_height="@dimen/choices_height"
+            android:layout_marginRight="20dp"
+            android:onClick="choiceD"
+            android:background="@drawable/d_selector"
+            android:layout_toRightOf="@id/btn_c"/>
+
+        <ImageButton
+            android:id="@+id/btn_e"
+            android:layout_width="@dimen/choices_width"
+            android:layout_height="@dimen/choices_height"
+            android:onClick="choiceE"
+            android:background="@drawable/e_selector"
+            android:layout_toRightOf="@id/btn_d"/>
+
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/ll_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/ll_choices">
+
+        <ImageButton
+            android:id="@+id/btnLeft"
+            android:layout_width="@dimen/button_left_right_width"
+            android:layout_height="@dimen/button_left_right_height"
+            android:background="@drawable/button_left"
+            android:onClick="changeQuestionBackward"
+            android:layout_marginRight="40dp" />
+
+        <Spinner
+            android:id="@+id/spGit"
+            android:layout_toRightOf="@id/btnLeft"
+            android:spinnerMode="dialog"
+            android:layout_width="@dimen/git_width"
+            android:layout_height="@dimen/git_height"
+            android:layout_centerInParent="true"
+            android:background="@drawable/git_selector"
+            android:layout_marginRight="40dp" />
+
+        <ImageButton
+            android:id="@+id/btnRight"
+            android:layout_width="@dimen/button_left_right_width"
+            android:layout_height="@dimen/button_left_right_height"
+            android:onClick="changeQuestionForward"
+            android:background="@drawable/button_right"
+            android:layout_toRightOf="@id/spGit"
+            />
+
+    </RelativeLayout>
+
+
+
+    <ImageButton
+        android:layout_width="@dimen/bitir_width"
+        android:layout_height="@dimen/bitir_height"
+        android:background="@drawable/bitir_selector"
+        android:onClick="sinaviBitir"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/ll_buttons"/>
+
 </RelativeLayout>

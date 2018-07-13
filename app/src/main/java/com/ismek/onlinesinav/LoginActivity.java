@@ -6,13 +6,14 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.ismek.onlinesinav.entity.Kullanici;
 import com.ismek.onlinesinav.util.ApplicationConstant;
 import com.ismek.onlinesinav.util.Utils;
 import com.ismek.onlinesinav.ws.ApiClient;
 import com.ismek.onlinesinav.ws.IRestService;
+
+import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import retrofit2.Call;
@@ -60,23 +61,39 @@ public class LoginActivity extends BaseActivity {
                         if (resp != null)
                             Log.d("ISMEKKK",resp.toString());
                         else{
-                            showAlertDialog("TC No veya Telefon No Yanlış!",View.VISIBLE,View.GONE,getString(R.string.ok),"");
+                            showAlertDialog("TC No veya Telefon No Yanlış!",View.VISIBLE,View.GONE,getString(R.string.ok),"",new Callable<Void>() {
+                                public Void call() {
+                                    return null;
+                                }
+                            });
                         }
                     }
 
                     @Override
                     public void onFailure(Call<Kullanici> call, Throwable t) {
                         progressDialog.dismiss();
-                        showAlertDialog("Hata oluştu! Lütfen sistem yöneticinizle görüşün!",View.VISIBLE,View.GONE,getString(R.string.ok),"");
+                        showAlertDialog("Hata oluştu! Lütfen sistem yöneticinizle görüşün!",View.VISIBLE,View.GONE,getString(R.string.ok),"",new Callable<Void>() {
+                            public Void call() {
+                                return null;
+                            }
+                        });
                     }
                 });
             }else{
-                showAlertDialog("TC No ve Telefon Boş Bırakılamaz!",View.VISIBLE,View.GONE,getString(R.string.ok),"");
+                showAlertDialog("TC No ve Telefon Boş Bırakılamaz!",View.VISIBLE,View.GONE,getString(R.string.ok),"",new Callable<Void>() {
+                    public Void call() {
+                        return null;
+                    }
+                });
             }
 
 
         }else{
-            showAlertDialog(getString(R.string.mes_access_denied),View.VISIBLE,View.GONE,getString(R.string.ok),"");
+            showAlertDialog(getString(R.string.mes_access_denied),View.VISIBLE,View.GONE,getString(R.string.ok),"",new Callable<Void>() {
+                public Void call() {
+                    return null;
+                }
+            });
         }
     }
 }

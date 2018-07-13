@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.ismek.onlinesinav.util.SharedPreferenceUtils;
 import com.ismek.onlinesinav.view.IsmekCustomProgressDialog;
 
+import java.util.concurrent.Callable;
+
 import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity{
@@ -51,7 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity{
         Toast.makeText(this, mToastMsg, Toast.LENGTH_LONG).show();
     }
 
-    public Dialog showAlertDialog(String message, int btnYesVisibility, int btnNoVisibility, String positiveText, String negativeText) {
+    public Dialog showAlertDialog(String message, int btnYesVisibility, int btnNoVisibility, String positiveText, String negativeText, final Callable<Void> positiveFunction) {
 
         // dialog nesnesi oluştur ve layout dosyasına bağlan
         final Dialog dialog = new Dialog(this);
@@ -76,7 +78,17 @@ public abstract class BaseActivity extends AppCompatActivity{
         btnYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+
+                try {
+                    if (positiveFunction.call() == null){
+                        dialog.dismiss();
+                    }
+                    else{
+                        positiveFunction.call();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         // iptal butonunun tıklanma olayları
