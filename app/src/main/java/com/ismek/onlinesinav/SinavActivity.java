@@ -10,10 +10,16 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
+
 import com.ismek.onlinesinav.entity.Sorular;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Callable;
 
 import butterknife.BindView;
@@ -26,6 +32,9 @@ public class SinavActivity extends BaseActivity {
     @BindView(R.id.spGit)
     public Spinner spGit;
 
+    @BindView(R.id.txtSure)
+    public TextView txtSure;
+
     List<String> listSpinner;
 
     HashMap<Integer, String> answers;
@@ -35,6 +44,8 @@ public class SinavActivity extends BaseActivity {
     int current_page = 0;
     int lengthOfSorular;
     String soruHtml;
+
+    long gecensure,sinavSuresi,kalansure;
 
 
     @Override
@@ -51,28 +62,55 @@ public class SinavActivity extends BaseActivity {
         webViewSettings();
 
         goToQuestions();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.SECOND,-30);
+        Date now = new Date();
+
+        gecensure = now.getTime()-calendar.getTime().getTime();
+        sinavSuresi = 60* 60 * 1000;
+        kalansure = sinavSuresi - gecensure;
+
+        TimerTask timerTask = new CountDownTimerTask();
+        //running timer task as daemon thread
+        Timer timer = new Timer(true);
+        timer.scheduleAtFixedRate(timerTask, 0, 1 * 1000);
+
+
     }
 
     public void createQuestionList(){
         sorulars = new ArrayList<>();
         Sorular s1 = new Sorular();
-        s1.setSoru("<html><body>1.Soru</body></html>");
+        s1.setSoru("<html><body><strong>1-Aşağıdakilerden hangisi bilgisayarlar arasındaki farklılıkların nedenlerinden biri değildir?</strong><br />\n" +
+                "a) Kapasite&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;b) Hız &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c) G&uuml;venlik &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d) Maliyet</p>\n</body></html>");
         sorulars.add(s1);
 
         Sorular s2 = new Sorular();
-        s2.setSoru("<html><body>2.Soru</body></html>");
+        s2.setSoru("<html><body><p><strong>2-Yazılım nedir?</strong><br />\n" +
+                "(a) Donanım ile kullanıcı arasındaki iletişimi kuran ve donanımı kontrol eden programlar<br />\n" +
+                "b) Bilgisayarın fiziksel olarak algılanabilen t&uuml;m par&ccedil;aları<br />\n" +
+                "c) Bilgisayarda bilgilerin ge&ccedil;ici olarak tutulduğu bir donanım elemanı<br />\n" +
+                "d) Bilgisayarda bilgilerin kalıcı olarak saklandığı ve diğer adı ROM olan donanım elemanı</p>\n</body></html>");
         sorulars.add(s2);
 
         Sorular s3 = new Sorular();
-        s3.setSoru("<html><body>3.Soru</body></html>");
+        s3.setSoru("<html><body><p><strong>3-Bilgisayarın temel &ccedil;alışma mantığı aşağıdaki se&ccedil;eneklerden hangisi ile ifade edilebilir?</strong><br />\n" +
+                "a) Veri-İşlem-Bilgi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b) RAM-ROM-Sabit disk<br />\n" +
+                "c) Klavye-Ekran-Kasa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d) Bilgi-İşlem-Veri</p>\n</body></html>");
         sorulars.add(s3);
 
         Sorular s4 = new Sorular();
-        s4.setSoru("<html><body>4.Soru</body></html>");
+        s4.setSoru("<html><body><p><strong>4-Aşağıdakilerden hangisi doğrudur?</strong><br />\n" +
+                "a) 1 Kilobyte = 8 Bit<br />\n" +
+                "b) 1024 MB = 1 KB<br />\n" +
+                "(с) 1 KB = 1024 Byte<br />\n" +
+                "d) 1 GB - 1024 KB</p>\n</body></html>");
         sorulars.add(s4);
 
         Sorular s5 = new Sorular();
-        s5.setSoru("<html><body>5.Soru</body></html>");
+        s5.setSoru("<html><body><p><strong>5-Aşağıdakilerden hangisi depolama birimi değildir?</strong><br />\n" +
+                "a) Sabit disk &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b) RAM &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c) ROM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;(d) Anakart</p>\n</body></html>");
         sorulars.add(s5);
     }
 
@@ -180,5 +218,19 @@ public class SinavActivity extends BaseActivity {
                 return null;
             }
         });
+    }
+
+    public class CountDownTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+           long saniye = kalansure / 1000 % 60;
+           long dk = kalansure / 1000 / 60;
+           txtSure.setText(String.format("%02d", dk) + ":" + String.format("%02d", saniye));
+           if (kalansure == 0)
+               cancel();
+            kalansure -= 1 * 1000;
+        }
+
     }
 }

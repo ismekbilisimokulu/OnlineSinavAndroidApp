@@ -9,49 +9,94 @@
 
 <include android:id="@+id/header" layout="@layout/header"></include>
 
-    <RelativeLayout
-        android:id="@+id/rlWebView"
+    <LinearLayout
+        android:id="@+id/llInfo"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/webview_height"
+        android:layout_height="@dimen/info_height"
+        android:background="@mipmap/ust_ekran_sol"
+        android:orientation="horizontal"
+        android:weightSum="3"
         android:layout_below="@id/header">
 
-        <WebView
-            android:id="@+id/webView"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/webview_height"
-            android:background="@mipmap/sorualani">
-        </WebView>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_gravity="center">
+
+
+            <TextView
+                android:id="@+id/txtSinavBilgiAdi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#2a82bc"
+                android:text="Web Tasarım"
+                android:gravity="center"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/txtSinavBilgiSorular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#2a82bc"
+                android:gravity="center"
+                android:text="12/20"
+                android:textSize="18sp"/>
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/txtSure"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#fff"
-            android:background="@drawable/right_corner_radius"
-            android:textStyle="bold"
-            android:padding="6dip"
-            android:text="00:55:24"
-            android:layout_marginRight="3dp"
-            android:layout_alignParentRight="true"
+            android:layout_width="115dp"
+            android:layout_height="48dp"
+            android:textColor="#2a82bc"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_access_time_black_24dp"
+            android:background="@drawable/textview_border"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
             android:textSize="20sp"/>
-    </RelativeLayout>
 
+
+        <ImageButton
+            android:layout_width="@dimen/bitir_width"
+            android:layout_height="@dimen/bitir_height"
+            android:background="@drawable/bitir_selector"
+            android:onClick="sinaviBitir"
+            android:layout_weight="1"
+            android:layout_below="@id/ll_buttons"/>
+    </LinearLayout>
+
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/sorualani"
+        android:layout_below="@id/llInfo"
+        android:layout_above="@id/ll_choices">
+    </WebView>
 
 
     <LinearLayout
         android:id="@+id/ll_choices"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_width="346dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="5dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
         android:gravity="center"
-        android:padding="20dp"
-        android:layout_below="@id/rlWebView">
+        android:weightSum="5"
+        android:background="@mipmap/cevap_alani"
+        android:layout_weight="1"
+        android:layout_above="@+id/ll_buttons">
 
         <ImageButton
             android:id="@+id/btn_a"
             android:layout_width="@dimen/choices_width"
             android:layout_height="@dimen/choices_height"
-            android:layout_marginRight="20dp"
+            android:layout_weight="1"
             android:onClick="choiceA"
             android:background="@drawable/a_selector"/>
 
@@ -59,7 +104,7 @@
             android:id="@+id/btn_b"
             android:layout_width="@dimen/choices_width"
             android:layout_height="@dimen/choices_height"
-            android:layout_marginRight="20dp"
+            android:layout_weight="1"
             android:onClick="choiceB"
             android:background="@drawable/b_selector"
             android:layout_toRightOf="@id/btn_a"/>
@@ -68,7 +113,7 @@
             android:id="@+id/btn_c"
             android:layout_width="@dimen/choices_width"
             android:layout_height="@dimen/choices_height"
-            android:layout_marginRight="20dp"
+            android:layout_weight="1"
             android:onClick="choiceC"
             android:background="@drawable/c_selector"
             android:layout_toRightOf="@id/btn_b"/>
@@ -77,7 +122,7 @@
             android:id="@+id/btn_d"
             android:layout_width="@dimen/choices_width"
             android:layout_height="@dimen/choices_height"
-            android:layout_marginRight="20dp"
+            android:layout_weight="1"
             android:onClick="choiceD"
             android:background="@drawable/d_selector"
             android:layout_toRightOf="@id/btn_c"/>
@@ -86,6 +131,7 @@
             android:id="@+id/btn_e"
             android:layout_width="@dimen/choices_width"
             android:layout_height="@dimen/choices_height"
+            android:layout_weight="1"
             android:onClick="choiceE"
             android:background="@drawable/e_selector"
             android:layout_toRightOf="@id/btn_d"/>
@@ -93,52 +139,66 @@
 
     </LinearLayout>
 
-
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/ll_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:gravity="center"
-        android:layout_below="@id/ll_choices">
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:weightSum="3"
+        android:layout_alignParentBottom="true">
 
-        <ImageButton
-            android:id="@+id/btnLeft"
-            android:layout_width="@dimen/button_left_right_width"
-            android:layout_height="@dimen/button_left_right_height"
-            android:background="@drawable/button_left"
-            android:onClick="changeQuestionBackward"
-            android:layout_marginRight="40dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
 
-        <Spinner
-            android:id="@+id/spGit"
-            android:layout_toRightOf="@id/btnLeft"
-            android:spinnerMode="dialog"
-            android:layout_width="@dimen/git_width"
-            android:layout_height="@dimen/git_height"
-            android:layout_centerInParent="true"
-            android:background="@drawable/git_selector"
-            android:layout_marginRight="40dp" />
+            <ImageButton
+                android:id="@+id/btnLeft"
+                android:layout_width="@dimen/button_left_right_width"
+                android:layout_height="@dimen/button_left_right_height"
+                android:background="@drawable/button_left"
+                android:onClick="changeQuestionBackward"
+                />
+        </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/btnRight"
-            android:layout_width="@dimen/button_left_right_width"
-            android:layout_height="@dimen/button_left_right_height"
-            android:onClick="changeQuestionForward"
-            android:background="@drawable/button_right"
-            android:layout_toRightOf="@id/spGit"
-            />
-
-    </RelativeLayout>
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+            <Spinner
+                android:id="@+id/spGit"
+                android:spinnerMode="dialog"
+                android:layout_width="@dimen/git_width"
+                android:layout_height="@dimen/git_height"
+                android:background="@drawable/git_selector"/>
+        </LinearLayout>
 
 
-    <ImageButton
-        android:layout_width="@dimen/bitir_width"
-        android:layout_height="@dimen/bitir_height"
-        android:background="@drawable/bitir_selector"
-        android:onClick="sinaviBitir"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/ll_buttons"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/btnRight"
+                android:layout_width="@dimen/button_left_right_width"
+                android:layout_height="@dimen/button_left_right_height"
+                android:onClick="changeQuestionForward"
+                android:background="@drawable/button_right"
+                />
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
 
 </RelativeLayout>
