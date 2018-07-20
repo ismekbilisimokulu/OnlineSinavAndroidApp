@@ -37,10 +37,10 @@ public class MainActivity extends BaseActivity {
         adapter = new SinavListAdapter(MainActivity.this, sinavList, new SinavListener() {
             @Override
             public void onClicked(View view, int position) {
-                Intent i = new Intent(MainActivity.this,Sinav.class);
+                Intent i = new Intent(MainActivity.this,SinavActivity.class);
                 Bundle b = new Bundle();
                 b.putParcelable("sinav",sinavList.get(position));
-                i.putExtra("bundle",b);
+                i.putExtras(b);
                 startActivity(i);
             }
         });
@@ -56,7 +56,7 @@ public class MainActivity extends BaseActivity {
         Sinav sinav = new Sinav();
         sinav.setSinavTarihi(new Date());
         sinav.setSinavSalonu("8");
-        sinav.setSinavAdi("asfdasfaf");
+        sinav.setSinavAdi("Android ile Mobil Programlama");
         sinavList.add(sinav);
     }
 

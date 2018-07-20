@@ -13,54 +13,69 @@
         android:id="@+id/llInfo"
         android:layout_width="match_parent"
         android:layout_height="@dimen/info_height"
-        android:background="@mipmap/ust_ekran_sol"
         android:orientation="horizontal"
         android:weightSum="3"
         android:layout_below="@id/header">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="1"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@mipmap/ust_ekran_sol">
 
 
             <TextView
                 android:id="@+id/txtSinavBilgiAdi"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#2a82bc"
+                android:textColor="@color/mainGray"
                 android:text="Web Tasarım"
                 android:gravity="center"
-                android:textSize="18sp"/>
+                style="@android:style/TextAppearance.Small"/>
 
             <TextView
                 android:id="@+id/txtSinavBilgiSorular"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#2a82bc"
+                android:textColor="@color/mainGray"
                 android:gravity="center"
                 android:text="12/20"
-                android:textSize="18sp"/>
+                style="@android:style/TextAppearance.Small"/>
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/txtSure"
-            android:layout_width="115dp"
-            android:layout_height="48dp"
-            android:textColor="#2a82bc"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_access_time_black_24dp"
-            android:background="@drawable/textview_border"
-            android:gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:textSize="20sp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@mipmap/ust_ekran_sol"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="@dimen/time_width"
+                android:layout_height="@dimen/time_height"
+                android:src="@mipmap/time"/>
+
+            <TextView
+                android:id="@+id/txtSure"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/mainBlue"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:text="12:12"
+                style="@android:style/TextAppearance.Medium"/>
+
+        </LinearLayout>
 
 
         <ImageButton
-            android:layout_width="@dimen/bitir_width"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/bitir_height"
             android:background="@drawable/bitir_selector"
             android:onClick="sinaviBitir"
@@ -87,55 +102,67 @@
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:gravity="center"
-        android:weightSum="5"
+        android:alpha=".95"
         android:background="@mipmap/cevap_alani"
-        android:layout_weight="1"
         android:layout_above="@+id/ll_buttons">
 
-        <ImageButton
-            android:id="@+id/btn_a"
-            android:layout_width="@dimen/choices_width"
-            android:layout_height="@dimen/choices_height"
-            android:layout_weight="1"
-            android:onClick="choiceA"
-            android:background="@drawable/a_selector"/>
 
-        <ImageButton
-            android:id="@+id/btn_b"
-            android:layout_width="@dimen/choices_width"
-            android:layout_height="@dimen/choices_height"
-            android:layout_weight="1"
-            android:onClick="choiceB"
-            android:background="@drawable/b_selector"
-            android:layout_toRightOf="@id/btn_a"/>
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rgChoices"
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/btn_c"
-            android:layout_width="@dimen/choices_width"
-            android:layout_height="@dimen/choices_height"
-            android:layout_weight="1"
-            android:onClick="choiceC"
-            android:background="@drawable/c_selector"
-            android:layout_toRightOf="@id/btn_b"/>
+            <RadioButton
+                android:id="@+id/btn_a"
+                android:layout_width="@dimen/choices_width"
+                android:layout_height="@dimen/choices_height"
+                android:onClick="choiceA"
+                android:layout_marginRight="@dimen/choice_margin_right"
+                android:background="@drawable/radio_a_selector"
+                android:button="@null"/>
 
-        <ImageButton
-            android:id="@+id/btn_d"
-            android:layout_width="@dimen/choices_width"
-            android:layout_height="@dimen/choices_height"
-            android:layout_weight="1"
-            android:onClick="choiceD"
-            android:background="@drawable/d_selector"
-            android:layout_toRightOf="@id/btn_c"/>
 
-        <ImageButton
-            android:id="@+id/btn_e"
-            android:layout_width="@dimen/choices_width"
-            android:layout_height="@dimen/choices_height"
-            android:layout_weight="1"
-            android:onClick="choiceE"
-            android:background="@drawable/e_selector"
-            android:layout_toRightOf="@id/btn_d"/>
+            <RadioButton
+                android:id="@+id/btn_b"
+                android:layout_width="@dimen/choices_width"
+                android:layout_height="@dimen/choices_height"
+                android:onClick="choiceB"
+                android:layout_marginRight="@dimen/choice_margin_right"
+                android:background="@drawable/radio_b_selector"
+                android:layout_toRightOf="@id/btn_a"
+                android:button="@null"/>
 
+            <RadioButton
+                android:id="@+id/btn_c"
+                android:layout_width="@dimen/choices_width"
+                android:layout_height="@dimen/choices_height"
+                android:onClick="choiceC"
+                android:layout_marginRight="@dimen/choice_margin_right"
+                android:background="@drawable/radio_c_selector"
+                android:layout_toRightOf="@id/btn_b"
+                android:button="@null"/>
+
+            <RadioButton
+                android:id="@+id/btn_d"
+                android:layout_width="@dimen/choices_width"
+                android:layout_height="@dimen/choices_height"
+                android:onClick="choiceD"
+                android:layout_marginRight="@dimen/choice_margin_right"
+                android:background="@drawable/radio_d_selector"
+                android:layout_toRightOf="@id/btn_c"
+                android:button="@null"/>
+
+            <RadioButton
+                android:id="@+id/btn_e"
+                android:layout_width="@dimen/choices_width"
+                android:layout_height="@dimen/choices_height"
+                android:onClick="choiceE"
+                android:background="@drawable/radio_e_selector"
+                android:layout_toRightOf="@id/btn_d"
+                android:button="@null"/>
+
+        </RadioGroup>
 
     </LinearLayout>
 
@@ -146,8 +173,9 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_gravity="center"
-        android:layout_weight="1"
         android:weightSum="3"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_alignParentBottom="true">
 
         <LinearLayout
@@ -160,7 +188,7 @@
                 android:id="@+id/btnLeft"
                 android:layout_width="@dimen/button_left_right_width"
                 android:layout_height="@dimen/button_left_right_height"
-                android:background="@drawable/button_left"
+                android:background="@drawable/button_left_selector"
                 android:onClick="changeQuestionBackward"
                 />
         </LinearLayout>
@@ -191,7 +219,7 @@
                 android:layout_width="@dimen/button_left_right_width"
                 android:layout_height="@dimen/button_left_right_height"
                 android:onClick="changeQuestionForward"
-                android:background="@drawable/button_right"
+                android:background="@drawable/button_right_selector"
                 />
         </LinearLayout>
 
