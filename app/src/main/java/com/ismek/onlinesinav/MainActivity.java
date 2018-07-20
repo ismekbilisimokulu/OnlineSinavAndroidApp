@@ -15,6 +15,7 @@ import com.ismek.onlinesinav.Listener.SinavListener;
 import com.ismek.onlinesinav.entity.Sinav;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -52,6 +53,11 @@ public class MainActivity extends BaseActivity {
 
     private void getSinavList() {
         sinavList = new ArrayList<>();
+        Sinav sinav = new Sinav();
+        sinav.setSinavTarihi(new Date());
+        sinav.setSinavSalonu("8");
+        sinav.setSinavAdi("asfdasfaf");
+        sinavList.add(sinav);
     }
 
     @Override
