@@ -34,6 +34,8 @@ public abstract class BaseActivity extends AppCompatActivity{
 
         ButterKnife.bind(this);
         progressDialog = new IsmekCustomProgressDialog(this, R.style.CustomDialogTheme);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
         preferences = SharedPreferenceUtils.getInstance(this);
         onViewReady(savedInstanceState, getIntent());
     }
