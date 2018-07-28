@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -113,7 +114,7 @@ public class SinavActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         Sinav sinav = bundle.getParcelable("sinav");
 
-        //txtSinavBilgiAdi.setText(sinav.getSinavAdi());
+        //txtSinavBilgiAdi.setText(sinav.getBransId().getBransAdi());
         txtSinavBilgiAdi.setText("Android");
 
         sorulars = new ArrayList<>();
@@ -344,8 +345,8 @@ public class SinavActivity extends BaseActivity {
     public void onBackPressed() {
         showAlertDialog("Sınavdan çıkmak istediğinize emin misiniz? (Cevaplarınız silinecektir!)",View.VISIBLE,View.VISIBLE,"Evet", "Hayır",new Callable<Void>() {
             public Void call() {
-                Intent i = new Intent(SinavActivity.this,MainActivity.class);
-                startActivity(i);
+//                Intent i = new Intent(SinavActivity.this,MainActivity.class);
+//                startActivity(i);
                 finish();
                 return null;
             }
@@ -369,6 +370,7 @@ public class SinavActivity extends BaseActivity {
 
             if (kalansure == 0){
                 cancel();
+                String cevaplar = sendAnswersTimeout();
                 Intent i = new Intent(SinavActivity.this,SinavSonuc.class);
                 startActivity(i);
                 finish();
@@ -385,11 +387,30 @@ public class SinavActivity extends BaseActivity {
 
         for (int i = 1; i < lengthOfSorular + 1 ; i++) {
 
-            if (i == lengthOfSorular){
+            if (!TextUtils.isEmpty(answers.get(i))){
                 builder.append(answers.get(i));
             }
             else{
-                builder.append(answers.get(i) + ",");
+                builder.append(" ");
+            }
+        }
+
+        String result = builder.toString();
+
+        return result;
+    }
+
+    private String sendAnswersTimeout() {
+
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 1; i < lengthOfSorular + 1 ; i++) {
+
+            if (!TextUtils.isEmpty(answers.get(i))){
+                builder.append(answers.get(i));
+            }
+            else{
+                builder.append(" ");
             }
         }
 

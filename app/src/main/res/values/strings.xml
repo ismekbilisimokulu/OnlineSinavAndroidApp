@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">OnlineSinavAndroidApp</string>
+    <string name="app_name">İSMEK Online Sınav Sistemi</string>
     <string name="dialogOkButton">Tamam</string>
     <string name="noConnection">İnternet Bağlantısı Yok</string>
 
