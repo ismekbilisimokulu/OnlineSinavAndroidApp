@@ -113,7 +113,8 @@ public class SinavActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         Sinav sinav = bundle.getParcelable("sinav");
 
-        txtSinavBilgiAdi.setText(sinav.getSinavAdi());
+        //txtSinavBilgiAdi.setText(sinav.getSinavAdi());
+        txtSinavBilgiAdi.setText("Android");
 
         sorulars = new ArrayList<>();
         Sorular s1 = new Sorular();

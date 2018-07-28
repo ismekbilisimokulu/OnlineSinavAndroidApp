@@ -1,37 +1,43 @@
 package com.ismek.onlinesinav.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class Sorular {
 
-	private Integer soruId;
+    private long soruId;
 
-	private String soru;
+    private String soru;
 
-	private String secenekler;
+    private String secenekler;
 
-	private String secenekSayisi;
+    private String secenekSayisi;
 
-	private String cevap;
+    private String cevap;
 
-	private Date eklenmeTarihi;
+    private Date eklemeTarihi;
 
-	private Integer soruPuan;
+    private Integer soruPuan;
 
-	private Boolean isOnay;
+    private Integer isOnay;
 
-	private Boolean isAktif;
+    private Integer isAktif;
 
-	private String zorlukSeviye;
+    private String zorlukSeviyesi;
 
-	private Integer kullaniciId;
+    private Kullanici kullanici;
 
+    private List<Brans> brans;
 
-    public Integer getSoruId() {
+    private SoruAnaliz soruanaliz;
+
+    public Sorular() {}
+
+    public long getSoruId() {
         return soruId;
     }
 
-    public void setSoruId(Integer soruId) {
+    public void setSoruId(long soruId) {
         this.soruId = soruId;
     }
 
@@ -67,12 +73,12 @@ public class Sorular {
         this.cevap = cevap;
     }
 
-    public Date getEklenmeTarihi() {
-        return eklenmeTarihi;
+    public Date getEklemeTarihi() {
+        return eklemeTarihi;
     }
 
-    public void setEklenmeTarihi(Date eklenmeTarihi) {
-        this.eklenmeTarihi = eklenmeTarihi;
+    public void setEklemeTarihi(Date eklemeTarihi) {
+        this.eklemeTarihi = eklemeTarihi;
     }
 
     public Integer getSoruPuan() {
@@ -83,35 +89,52 @@ public class Sorular {
         this.soruPuan = soruPuan;
     }
 
-    public Boolean getOnay() {
+    public Integer getIsOnay() {
         return isOnay;
     }
 
-    public void setOnay(Boolean onay) {
-        isOnay = onay;
+    public void setIsOnay(Integer isOnay) {
+        this.isOnay = isOnay;
     }
 
-    public Boolean getAktif() {
+    public Integer getIsAktif() {
         return isAktif;
     }
 
-    public void setAktif(Boolean aktif) {
-        isAktif = aktif;
+    public void setIsAktif(Integer isAktif) {
+        this.isAktif = isAktif;
     }
 
-    public String getZorlukSeviye() {
-        return zorlukSeviye;
+    public String getZorlukSeviyesi() {
+        return zorlukSeviyesi;
     }
 
-    public void setZorlukSeviye(String zorlukSeviye) {
-        this.zorlukSeviye = zorlukSeviye;
+    public void setZorlukSeviyesi(String zorlukSeviyesi) {
+        this.zorlukSeviyesi = zorlukSeviyesi;
     }
 
-    public Integer getKullaniciId() {
-        return kullaniciId;
+    public Kullanici getKullanici() {
+        return kullanici;
     }
 
-    public void setKullaniciId(Integer kullaniciId) {
-        this.kullaniciId = kullaniciId;
+    public void setKullanici(Kullanici kullanici) {
+        this.kullanici = kullanici;
     }
+
+    public List<Brans> getBrans() {
+        return brans;
+    }
+
+    public void setBrans(List<Brans> brans) {
+        this.brans = brans;
+    }
+
+    public SoruAnaliz getSoruanaliz() {
+        return soruanaliz;
+    }
+
+    public void setSoruanaliz(SoruAnaliz soruanaliz) {
+        this.soruanaliz = soruanaliz;
+    }
+
 }

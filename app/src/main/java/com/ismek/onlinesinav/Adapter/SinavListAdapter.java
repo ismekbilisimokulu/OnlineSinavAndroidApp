@@ -40,7 +40,7 @@ public class SinavListAdapter extends Adapter<SinavListAdapter.SinavViewHolder>{
     public void onBindViewHolder(@NonNull SinavViewHolder holder, int position) {
         Sinav sinav = sinavList.get(position);
 
-        holder.txtSinavAdi.setText(sinav.getSinavAdi());
+        //holder.txtSinavAdi.setText(sinav.getSinavAdi());
         holder.txtSinavZamani.setText(sinav.getSinavTarihi()+" "+sinav.getBsSaati());
         holder.txtSinavSalonu.setText(sinav.getSinavSalonu());
     }

@@ -2,24 +2,36 @@ package com.ismek.onlinesinav.entity;
 
 public class Mulakat {
 
-	private Integer mulakatId;
+    private int mulakatId;
 
-	private String mulakatSorulari;
+    private String mSorulari;
 
+   /* @OneToOne(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
+    @JsonIgnore
+    private MulakatCevaplari mulakatcevaplari;
+    */
 
-    public Integer getMulakatId() {
+    public int getMulakatId() {
         return mulakatId;
     }
 
-    public void setMulakatId(Integer mulakatId) {
+    public void setMulakatId(int mulakatId) {
         this.mulakatId = mulakatId;
     }
 
-    public String getMulakatSorulari() {
-        return mulakatSorulari;
+    public String getmSorulari() {
+        return mSorulari;
     }
 
-    public void setMulakatSorulari(String mulakatSorulari) {
-        this.mulakatSorulari = mulakatSorulari;
+    public void setmSorulari(String mSorulari) {
+        this.mSorulari = mSorulari;
     }
+/*
+	public MulakatCevaplari getMulakatcevaplari() {
+		return mulakatcevaplari;
+	}
+	public void setMulakatcevaplari(MulakatCevaplari mulakatcevaplari) {
+		this.mulakatcevaplari = mulakatcevaplari;
+	}
+*/
 }

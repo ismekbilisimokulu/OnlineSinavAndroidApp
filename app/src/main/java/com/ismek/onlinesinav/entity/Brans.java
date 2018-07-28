@@ -1,24 +1,28 @@
 package com.ismek.onlinesinav.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class Brans{
 
-    private int bransId;
+    private long bransId;
 
     private String bransAdi;
 
-    private int kontenjan;
-
-    private Set<Kullanici> kullanicilar;
+    private Integer kontenjan;
 
     private Set<Sorular> sorulars;
 
-    public int getBransId() {
+    private List<Sinav> sinav = new ArrayList<Sinav>();
+
+    public Brans() {}
+
+    public long getBransId() {
         return bransId;
     }
 
-    public void setBransId(int bransId) {
+    public void setBransId(long bransId) {
         this.bransId = bransId;
     }
 
@@ -30,21 +34,14 @@ public class Brans{
         this.bransAdi = bransAdi;
     }
 
-    public int getKontenjan() {
+    public Integer getKontenjan() {
         return kontenjan;
     }
 
-    public void setKontenjan(int kontenjan) {
+    public void setKontenjan(Integer kontenjan) {
         this.kontenjan = kontenjan;
     }
 
-    public Set<Kullanici> getKullanicilar() {
-        return kullanicilar;
-    }
-
-    public void setKullanicilar(Set<Kullanici> kullanicilar) {
-        this.kullanicilar = kullanicilar;
-    }
 
     public Set<Sorular> getSorulars() {
         return sorulars;
@@ -52,5 +49,13 @@ public class Brans{
 
     public void setSorulars(Set<Sorular> sorulars) {
         this.sorulars = sorulars;
+    }
+
+    public List<Sinav> getSinav() {
+        return sinav;
+    }
+
+    public void setSinav(List<Sinav> sinav) {
+        this.sinav = sinav;
     }
 }

@@ -5,21 +5,19 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.Date;
+import java.util.List;
 
 public class Sinav implements Parcelable{
 
-    private int sinavId;
+    private long sinavId;
 
-    private String sinavAdi;
+    private String sinavKodu;
 
     private Date sinavTarihi;
 
+    private Integer sinavSuresi;
 
-    private int sinavSuresi;
-
-
-    private int soruSayisi;
-
+    private Integer soruSayisi;
 
     private Date bsSaati;
 
@@ -29,40 +27,33 @@ public class Sinav implements Parcelable{
 
     private Date olusturmaTarihi;
 
-    private Kullanici ogretmenId;
-
-
     private boolean isAktif;
+
+    private Kullanici ogretmenId;
 
     private Brans bransId;
 
+    private List<Sorular> sorulars;
 
-    public Sinav(){}
+    private List<KullaniciToSinav> kullanicitosinav;
 
-    protected Sinav(Parcel in) {
-        sinavId = in.readInt();
-        sinavAdi = in.readString();
-        sinavSuresi = in.readInt();
-        soruSayisi = in.readInt();
+
+    public  Sinav(Parcel in) {
+        sinavId = in.readLong();
+        sinavKodu = in.readString();
+        if (in.readByte() == 0) {
+            sinavSuresi = null;
+        } else {
+            sinavSuresi = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            soruSayisi = null;
+        } else {
+            soruSayisi = in.readInt();
+        }
         sinavSalonu = in.readString();
         katkiYuzdesi = in.readFloat();
         isAktif = in.readByte() != 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(sinavId);
-        dest.writeString(sinavAdi);
-        dest.writeInt(sinavSuresi);
-        dest.writeInt(soruSayisi);
-        dest.writeString(sinavSalonu);
-        dest.writeFloat(katkiYuzdesi);
-        dest.writeByte((byte) (isAktif ? 1 : 0));
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 
     public static final Creator<Sinav> CREATOR = new Creator<Sinav>() {
@@ -77,20 +68,24 @@ public class Sinav implements Parcelable{
         }
     };
 
-    public int getSinavId() {
+    public Sinav() {
+
+    }
+
+    public long getSinavId() {
         return sinavId;
     }
 
-    public void setSinavId(int sinavId) {
+    public void setSinavId(long sinavId) {
         this.sinavId = sinavId;
     }
 
-    public String getSinavAdi() {
-        return sinavAdi;
+    public String getSinavKodu() {
+        return sinavKodu;
     }
 
-    public void setSinavAdi(String sinavAdi) {
-        this.sinavAdi = sinavAdi;
+    public void setSinavKodu(String sinavKodu) {
+        this.sinavKodu = sinavKodu;
     }
 
     public Date getSinavTarihi() {
@@ -101,19 +96,19 @@ public class Sinav implements Parcelable{
         this.sinavTarihi = sinavTarihi;
     }
 
-    public int getSinavSuresi() {
+    public Integer getSinavSuresi() {
         return sinavSuresi;
     }
 
-    public void setSinavSuresi(int sinavSuresi) {
+    public void setSinavSuresi(Integer sinavSuresi) {
         this.sinavSuresi = sinavSuresi;
     }
 
-    public int getSoruSayisi() {
+    public Integer getSoruSayisi() {
         return soruSayisi;
     }
 
-    public void setSoruSayisi(int soruSayisi) {
+    public void setSoruSayisi(Integer soruSayisi) {
         this.soruSayisi = soruSayisi;
     }
 
@@ -149,20 +144,20 @@ public class Sinav implements Parcelable{
         this.olusturmaTarihi = olusturmaTarihi;
     }
 
-    public Kullanici getOgretmenId() {
-        return ogretmenId;
-    }
-
-    public void setOgretmenId(Kullanici ogretmenId) {
-        this.ogretmenId = ogretmenId;
-    }
-
     public boolean isAktif() {
         return isAktif;
     }
 
     public void setAktif(boolean aktif) {
         isAktif = aktif;
+    }
+
+    public Kullanici getOgretmenId() {
+        return ogretmenId;
+    }
+
+    public void setOgretmenId(Kullanici ogretmenId) {
+        this.ogretmenId = ogretmenId;
     }
 
     public Brans getBransId() {
@@ -173,4 +168,49 @@ public class Sinav implements Parcelable{
         this.bransId = bransId;
     }
 
+    public List<Sorular> getSorulars() {
+        return sorulars;
+    }
+
+    public void setSorulars(List<Sorular> sorulars) {
+        this.sorulars = sorulars;
+    }
+
+    public List<KullaniciToSinav> getKullanicitosinav() {
+        return kullanicitosinav;
+    }
+
+    public void setKullanicitosinav(List<KullaniciToSinav> kullanicitosinav) {
+        this.kullanicitosinav = kullanicitosinav;
+    }
+
+    public static Creator<Sinav> getCREATOR() {
+        return CREATOR;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(sinavId);
+        parcel.writeString(sinavKodu);
+        if (sinavSuresi == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(sinavSuresi);
+        }
+        if (soruSayisi == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(soruSayisi);
+        }
+        parcel.writeString(sinavSalonu);
+        parcel.writeFloat(katkiYuzdesi);
+        parcel.writeByte((byte) (isAktif ? 1 : 0));
+    }
 }

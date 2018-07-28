@@ -1,40 +1,48 @@
 package com.ismek.onlinesinav.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 public class Kullanici{
 
-	private int kullaniciId;
+    private long kullaniciId;
 
-	private String tcNo;
+    private String tcNo;
 
-	private String ad;
+    private String ad;
 
-	private String soyAdi;
+    private String soyAdi;
 
-	private String telefon;
+    private String telefon;
 
-	private String mail;
+    private String mail;
 
-	private Date dogumTarihi;
+    private Date dogumTarihi;
 
-	private String cinsiyet;
+    private String cinsiyet;
 
-	private Set<Role> roles;
+    private List<Role> roles;
 
-	private Set<Brans> branslar;
+    private List<Brans> branslar;
 
-	public Set<Role> getRoles() {
-		return roles;
-	}
+    private List<Sorular> sorular;
+
+    private List<Sinav> sinav = new ArrayList<Sinav>();
+
+    private List<KullaniciToSinav> kullaniciToSinav;
+
+    public Kullanici() {
 
 
-    public int getKullaniciId() {
+    }
+
+    public long getKullaniciId() {
         return kullaniciId;
     }
 
-    public void setKullaniciId(int kullaniciId) {
+    public void setKullaniciId(long kullaniciId) {
         this.kullaniciId = kullaniciId;
     }
 
@@ -94,16 +102,43 @@ public class Kullanici{
         this.cinsiyet = cinsiyet;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 
-    public Set<Brans> getBranslar() {
+    public List<Brans> getBranslar() {
         return branslar;
     }
 
-    public void setBranslar(Set<Brans> branslar) {
+    public void setBranslar(List<Brans> branslar) {
         this.branslar = branslar;
     }
 
+    public List<Sorular> getSorular() {
+        return sorular;
+    }
+
+    public void setSorular(List<Sorular> sorular) {
+        this.sorular = sorular;
+    }
+
+    public List<Sinav> getSinav() {
+        return sinav;
+    }
+
+    public void setSinav(List<Sinav> sinav) {
+        this.sinav = sinav;
+    }
+
+    public List<KullaniciToSinav> getKullaniciToSinav() {
+        return kullaniciToSinav;
+    }
+
+    public void setKullaniciToSinav(List<KullaniciToSinav> kullaniciToSinav) {
+        this.kullaniciToSinav = kullaniciToSinav;
+    }
 }

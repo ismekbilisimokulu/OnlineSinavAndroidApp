@@ -56,7 +56,7 @@ public class MainActivity extends BaseActivity {
         Sinav sinav = new Sinav();
         sinav.setSinavTarihi(new Date());
         sinav.setSinavSalonu("8");
-        sinav.setSinavAdi("Android ile Mobil Programlama");
+        //sinav.setSinavAdi("Android ile Mobil Programlama");
         sinavList.add(sinav);
     }
 

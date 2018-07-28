@@ -34,6 +34,14 @@
             android:gravity="center"
             android:textSize="25sp"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sinav_bitis_2"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textSize="25sp"/>
+
     </LinearLayout>
 
 

@@ -3,7 +3,7 @@ package com.ismek.onlinesinav.entity;
 import java.util.Set;
 
 public class Role {
-    private int roleId;
+    private long roleId;
 
     private String roles;
 
@@ -17,11 +17,11 @@ public class Role {
         this.kullanicilar = kullanicilar;
     }
 
-    public int getRoleId() {
+    public long getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(int roleId) {
+    public void setRoleId(long roleId) {
         this.roleId = roleId;
     }
 

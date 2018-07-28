@@ -16,6 +16,7 @@
     <string name="ok">Tamam</string>
 
 
-    <string name="sinav_bitis">Sınav Tamamlanmıştır. Başarılar Dileriz.</string>
+    <string name="sinav_bitis">Sınav Tamamlanmıştır.</string>
+    <string name="sinav_bitis_2">Başarılar Dileriz.</string>
 
 </resources>
