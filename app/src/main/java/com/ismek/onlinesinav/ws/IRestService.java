@@ -12,7 +12,7 @@ import retrofit2.http.Query;
 
 public interface IRestService {
 
-    @GET("/kullanici/login/{tcNo}/{telefon}")
+    @GET("kullanici/login/{tcNo}/{telefon}")
     Call<BaseReturn<Kullanici>> login(@Header("Authorization") String authkey, @Path("tcNo") String tcNo, @Path("telefon") String telefon);
 
     @GET("/")
