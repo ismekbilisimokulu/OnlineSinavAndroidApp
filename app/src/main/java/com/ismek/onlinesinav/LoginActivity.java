@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.ismek.onlinesinav.entity.BaseReturn;
 import com.ismek.onlinesinav.entity.Kullanici;
 import com.ismek.onlinesinav.util.ApplicationConstant;
 import com.ismek.onlinesinav.util.Utils;
@@ -49,16 +50,16 @@ public class LoginActivity extends BaseActivity {
             if (!TextUtils.isEmpty(tcNo) && !TextUtils.isEmpty(telefon)){
                 progressDialog.show();
                 IRestService iService = ApiClient.getClient(LoginActivity.this).create(IRestService.class);
-                Call<Kullanici> call = iService.login(Utils.getAuthToken(),tcNo,telefon);
-                call.enqueue(new Callback<Kullanici>() {
+                Call<BaseReturn<Kullanici>> call = iService.login(Utils.getAuthToken(),tcNo,telefon);
+                call.enqueue(new Callback<BaseReturn<Kullanici>>() {
                     @Override
-                    public void onResponse(Call<Kullanici> call, Response<Kullanici> response) {
-                        Kullanici resp = response.body();
+                    public void onResponse(Call<BaseReturn<Kullanici>> call, Response<BaseReturn<Kullanici>> response) {
+                        BaseReturn<Kullanici> resp = response.body();
                         Log.d("ISMEKKK",""+response.code());
 
                         progressDialog.dismiss();
 
-                        if (resp != null)
+                        if (resp != null && ApplicationConstant.SUCCESS_CODE.equals(resp.getCode()))
                             Log.d("ISMEKKK",resp.toString());
                         else{
                             showAlertDialog("TC No veya Telefon No Yanlış!",View.VISIBLE,View.GONE,getString(R.string.ok),"",new Callable<Void>() {
@@ -70,7 +71,7 @@ public class LoginActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<Kullanici> call, Throwable t) {
+                    public void onFailure(Call<BaseReturn<Kullanici>> call, Throwable t) {
                         progressDialog.dismiss();
                         showAlertDialog("Hata oluştu! Lütfen sistem yöneticinizle görüşün!",View.VISIBLE,View.GONE,getString(R.string.ok),"",new Callable<Void>() {
                             public Void call() {

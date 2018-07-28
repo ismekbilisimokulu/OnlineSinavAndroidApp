@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ApiClient {
-    public static final String BASE_URL = "http://10.1.1.71:8080/api/v1/";
+    public static final String BASE_URL = "http://212.156.132.62:8080/OnlineSinavSistemi/api/v1/";
     private static Retrofit retrofit = null;
 
 
