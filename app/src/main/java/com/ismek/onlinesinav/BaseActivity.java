@@ -61,6 +61,7 @@ public abstract class BaseActivity extends AppCompatActivity{
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.ismek_custom_alert_dialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
 
         // custom dialog elemanlarını tanımla - text, image ve button
         Button btnYes = (Button) dialog.findViewById(R.id.btn_yes);

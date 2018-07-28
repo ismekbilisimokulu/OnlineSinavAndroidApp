@@ -2,9 +2,9 @@ package com.ismek.onlinesinav;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -15,6 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.ismek.onlinesinav.entity.BaseReturn;
 import com.ismek.onlinesinav.entity.Sinav;
 import com.ismek.onlinesinav.entity.Sorular;
 import java.util.ArrayList;
@@ -27,8 +28,14 @@ import java.util.TimerTask;
 import java.util.concurrent.Callable;
 
 import butterknife.BindView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import com.ismek.onlinesinav.util.ApplicationConstant;
+import com.ismek.onlinesinav.util.Utils;
+import com.ismek.onlinesinav.ws.ApiClient;
+import com.ismek.onlinesinav.ws.IRestService;
 
 public class SinavActivity extends BaseActivity {
 
@@ -87,7 +94,7 @@ public class SinavActivity extends BaseActivity {
 
         createQuestionList();
 
-        lengthOfSorular = sorulars.size();
+
 
         webViewSettings();
 
@@ -114,45 +121,88 @@ public class SinavActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         Sinav sinav = bundle.getParcelable("sinav");
 
+        //long sinavId = sinav.getSinavId();
         //txtSinavBilgiAdi.setText(sinav.getBransId().getBransAdi());
         txtSinavBilgiAdi.setText("Android");
 
-        sorulars = new ArrayList<>();
-        Sorular s1 = new Sorular();
-        s1.setSoru("<html><body><strong>1-Aşağıdakilerden hangisi bilgisayarlar arasındaki farklılıkların nedenlerinden biri değildir?</strong><br />\n" +
-                "a) Kapasite&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;b) Hız &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c) G&uuml;venlik &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d) Maliyet</p>\n</body></html>");
-        s1.setSecenekSayisi("5");
-        sorulars.add(s1);
+        long sinavId = 1;
 
-        Sorular s2 = new Sorular();
-        s2.setSoru("<html><body><p><strong>2-Yazılım nedir?</strong><br />\n" +
-                "(a) Donanım ile kullanıcı arasındaki iletişimi kuran ve donanımı kontrol eden programlar<br />\n" +
-                "b) Bilgisayarın fiziksel olarak algılanabilen t&uuml;m par&ccedil;aları<br />\n" +
-                "c) Bilgisayarda bilgilerin ge&ccedil;ici olarak tutulduğu bir donanım elemanı<br />\n" +
-                "d) Bilgisayarda bilgilerin kalıcı olarak saklandığı ve diğer adı ROM olan donanım elemanı</p>\n</body></html>");
-        s2.setSecenekSayisi("4");
-        sorulars.add(s2);
+        progressDialog.show();
 
-        Sorular s3 = new Sorular();
-        s3.setSoru("<html><body><p><strong>3-Bilgisayarın temel &ccedil;alışma mantığı aşağıdaki se&ccedil;eneklerden hangisi ile ifade edilebilir?</strong><br />\n" +
-                "a) Veri-İşlem-Bilgi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b) RAM-ROM-Sabit disk<br />\n" +
-                "c) Klavye-Ekran-Kasa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d) Bilgi-İşlem-Veri</p>\n</body></html>");
-        s3.setSecenekSayisi("3");
-        sorulars.add(s3);
+        IRestService iService = ApiClient.getClient(SinavActivity.this).create(IRestService.class);
+        Call<BaseReturn<List<Sorular>>> call = iService.getQuestions(Utils.getAuthToken(), sinavId);
+        call.enqueue(new Callback<BaseReturn<List<Sorular>>>() {
+            @Override
+            public void onResponse(Call<BaseReturn<List<Sorular>>> call, Response<BaseReturn<List<Sorular>>> response) {
+                BaseReturn<List<Sorular>> resp = response.body();
+                Log.d("ISMEKKK",""+response.code());
 
-        Sorular s4 = new Sorular();
-        s4.setSoru("<html><body><p><strong>4-Aşağıdakilerden hangisi doğrudur?</strong><br />\n" +
-                "a) 1 Kilobyte = 8 Bit<br />\n" +
-                "b) 1024 MB = 1 KB<br />\n" +
-                "(с) 1 KB = 1024 Byte<br />\n" +
-                "d) 1 GB - 1024 KB</p>\n</body></html>");
-        sorulars.add(s4);
+                progressDialog.dismiss();
+                if (resp != null && ApplicationConstant.SUCCESS_CODE.equals(resp.getCode()))
+                {
+                    sorulars = resp.getData();
+                    lengthOfSorular = sorulars.size();
+                    Log.d("ISMEKKK",resp.toString());
+                }
+                else{
+                    showAlertDialog("Sınav verileri alınırken bir hata meydana geldi!",View.VISIBLE,View.GONE,getString(R.string.ok),"",new Callable<Void>() {
+                        public Void call() {
+                            finish();
+                            return null;
+                        }
+                    });
+                }
+            }
 
-        Sorular s5 = new Sorular();
-        s5.setSoru("<html><body><p><strong>5-Aşağıdakilerden hangisi depolama birimi değildir?</strong><br />\n" +
-                "a) Sabit disk &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b) RAM &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c) ROM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;(d) Anakart</p>\n</body></html>");
-        s5.setSecenekSayisi("2");
-        sorulars.add(s5);
+            @Override
+            public void onFailure(Call<BaseReturn<List<Sorular>>> call, Throwable t) {
+                progressDialog.dismiss();
+                showAlertDialog("Hata oluştu! Lütfen sistem yöneticinizle görüşün!",View.VISIBLE,View.GONE,getString(R.string.ok),"",new Callable<Void>() {
+                    public Void call() {
+                        return null;
+                    }
+                });
+            }
+        });
+
+
+
+//        sorulars = new ArrayList<>();
+//        Sorular s1 = new Sorular();
+//        s1.setSoru("<html><body><strong>1-Aşağıdakilerden hangisi bilgisayarlar arasındaki farklılıkların nedenlerinden biri değildir?</strong><br />\n" +
+//                "a) Kapasite&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;b) Hız &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c) G&uuml;venlik &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d) Maliyet</p>\n</body></html>");
+//        s1.setSecenekSayisi("5");
+//        sorulars.add(s1);
+//
+//        Sorular s2 = new Sorular();
+//        s2.setSoru("<html><body><p><strong>2-Yazılım nedir?</strong><br />\n" +
+//                "(a) Donanım ile kullanıcı arasındaki iletişimi kuran ve donanımı kontrol eden programlar<br />\n" +
+//                "b) Bilgisayarın fiziksel olarak algılanabilen t&uuml;m par&ccedil;aları<br />\n" +
+//                "c) Bilgisayarda bilgilerin ge&ccedil;ici olarak tutulduğu bir donanım elemanı<br />\n" +
+//                "d) Bilgisayarda bilgilerin kalıcı olarak saklandığı ve diğer adı ROM olan donanım elemanı</p>\n</body></html>");
+//        s2.setSecenekSayisi("4");
+//        sorulars.add(s2);
+//
+//        Sorular s3 = new Sorular();
+//        s3.setSoru("<html><body><p><strong>3-Bilgisayarın temel &ccedil;alışma mantığı aşağıdaki se&ccedil;eneklerden hangisi ile ifade edilebilir?</strong><br />\n" +
+//                "a) Veri-İşlem-Bilgi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b) RAM-ROM-Sabit disk<br />\n" +
+//                "c) Klavye-Ekran-Kasa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d) Bilgi-İşlem-Veri</p>\n</body></html>");
+//        s3.setSecenekSayisi("3");
+//        sorulars.add(s3);
+//
+//        Sorular s4 = new Sorular();
+//        s4.setSoru("<html><body><p><strong>4-Aşağıdakilerden hangisi doğrudur?</strong><br />\n" +
+//                "a) 1 Kilobyte = 8 Bit<br />\n" +
+//                "b) 1024 MB = 1 KB<br />\n" +
+//                "(с) 1 KB = 1024 Byte<br />\n" +
+//                "d) 1 GB - 1024 KB</p>\n</body></html>");
+//        sorulars.add(s4);
+//
+//        Sorular s5 = new Sorular();
+//        s5.setSoru("<html><body><p><strong>5-Aşağıdakilerden hangisi depolama birimi değildir?</strong><br />\n" +
+//                "a) Sabit disk &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b) RAM &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c) ROM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;(d) Anakart</p>\n</body></html>");
+//        s5.setSecenekSayisi("2");
+//        sorulars.add(s5);
     }
 
     public void webViewSettings(){

@@ -20,4 +20,9 @@ public class SinavSonuc extends BaseActivity {
     public void logOut(View view) {
 
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }
