@@ -8,6 +8,7 @@
     <color name="screenBg">#e7e6e6</color>
     <color name="black">#000</color>
     <color name="white">#fff</color>
+    <color name="white_transparent">#afff</color>
     <color name="mainBlue">#34a2d9</color>
     <color name="mainGray">#615f5f</color>
 </resources>

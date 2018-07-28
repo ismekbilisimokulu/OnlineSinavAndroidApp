@@ -16,7 +16,9 @@
         <activity
             android:name=".SplashActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity
             android:name=".LoginActivity"
             android:configChanges="orientation"
