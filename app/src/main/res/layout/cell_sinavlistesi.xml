@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:id="@+id/cv"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         app:cardBackgroundColor="@color/white_transparent"
         android:layout_marginHorizontal="3dp"
         app:cardElevation="5dp">
@@ -23,33 +22,62 @@
                 android:orientation="vertical"
                 android:layout_height="wrap_content">
 
-                <TextView
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/sinavAdi"
-                    android:textSize="16sp"
-                    android:fontFamily="monospace"
-                    android:text="Sinav Adi"/>
-                <RelativeLayout
+                    android:orientation="horizontal"
+                    android:weightSum="5">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_weight="3"
+                        android:text="Sınav Adı"
+                        android:textSize="16sp"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:id="@+id/sinavAdi"
+                        android:textSize="16sp" />
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="5">
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Sinav Tarihi ve Saati"
+                        android:layout_width="match_parent"
+                        android:layout_weight="3"
+                        android:text="Sınav Zamanı"
                         android:textSize="16sp"
-                        android:fontFamily="monospace"
-                        android:id="@+id/sinavZamani"/>
+                        android:layout_height="wrap_content" />
                     <TextView
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:id="@+id/sinavZamani"
+                        android:textSize="16sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="5">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_weight="3"
+                        android:text="Sınav Salonu"
                         android:textSize="16sp"
-                        android:fontFamily="monospace"
-                        android:text="Salon No"
-                        android:id="@+id/salonNo"/>
-                </RelativeLayout>
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:id="@+id/sinavSalonu"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+
 
 
             </LinearLayout>

@@ -17,7 +17,7 @@
         android:id="@+id/headerTxt"
         android:layout_below="@+id/header"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:gravity="center"
         android:paddingTop="5dp"
         android:paddingBottom="10dp"/>

@@ -45,14 +45,13 @@ public class SinavListAdapter extends Adapter<SinavListAdapter.SinavViewHolder>{
     public void onBindViewHolder(@NonNull SinavViewHolder holder, int position) {
         KullaniciToSinav sinav = sinavList.get(position);
 
-        holder.txtSinavAdi.setText(sinav.getSinav().getBransId().getBransAdi());
+        holder.txtSinavAdi.setText(": "+sinav.getSinav().getBransId().getBransAdi());
 
-        if (sinav.getSinav().getSinavTarihi() != null)
-            holder.txtSinavZamani.setText(formatter.format(sinav.getSinav().getSinavTarihi()));
-        else
-            holder.txtSinavZamani.setText("Sinav Tarihi");
 
-        holder.txtSinavSalonu.setText("Salon NO: "+sinav.getSinav().getSinavSalonu());
+        holder.txtSinavZamani.setText(": "+formatter.format(sinav.getSinav().getSinavTarihi()));
+
+
+        holder.txtSinavSalonu.setText(": "+sinav.getSinav().getSinavSalonu());
     }
 
     @Override
@@ -72,7 +71,7 @@ public class SinavListAdapter extends Adapter<SinavListAdapter.SinavViewHolder>{
             super(itemView);
 
             txtSinavAdi = itemView.findViewById(R.id.sinavAdi);
-            txtSinavSalonu = itemView.findViewById(R.id.salonNo);
+            txtSinavSalonu = itemView.findViewById(R.id.sinavSalonu);
             txtSinavZamani = itemView.findViewById(R.id.sinavZamani);
             btnKatil = itemView.findViewById(R.id.btnKatil);
 
