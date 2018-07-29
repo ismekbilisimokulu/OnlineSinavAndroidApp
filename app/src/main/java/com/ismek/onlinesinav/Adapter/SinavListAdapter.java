@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,14 @@ import com.ismek.onlinesinav.Listener.SinavListener;
 import com.ismek.onlinesinav.R;
 import com.ismek.onlinesinav.entity.Sinav;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 
 public class SinavListAdapter extends Adapter<SinavListAdapter.SinavViewHolder>{
 
+
+    private SimpleDateFormat formatter= new SimpleDateFormat("dd.MM.yyyy HH:mm");
     private Context context;
     private List<Sinav> sinavList;
     private SinavListener listener;
@@ -40,9 +44,14 @@ public class SinavListAdapter extends Adapter<SinavListAdapter.SinavViewHolder>{
     public void onBindViewHolder(@NonNull SinavViewHolder holder, int position) {
         Sinav sinav = sinavList.get(position);
 
-        //holder.txtSinavAdi.setText(sinav.getSinavAdi());
-        holder.txtSinavZamani.setText(sinav.getSinavTarihi()+" "+sinav.getBsSaati());
-        holder.txtSinavSalonu.setText(sinav.getSinavSalonu());
+        holder.txtSinavAdi.setText("");
+
+        if (sinav.getSinavTarihi() != null)
+            holder.txtSinavZamani.setText(formatter.format(sinav.getSinavTarihi()));
+        else
+            holder.txtSinavZamani.setText("Sinav Tarihi");
+
+        holder.txtSinavSalonu.setText("Salon NO: "+sinav.getSinavSalonu());
     }
 
     @Override

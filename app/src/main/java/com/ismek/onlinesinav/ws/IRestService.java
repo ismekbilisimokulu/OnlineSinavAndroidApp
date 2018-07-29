@@ -3,6 +3,7 @@ package com.ismek.onlinesinav.ws;
 import com.ismek.onlinesinav.entity.BaseReturn;
 import com.ismek.onlinesinav.entity.Ip;
 import com.ismek.onlinesinav.entity.Kullanici;
+import com.ismek.onlinesinav.entity.Sinav;
 import com.ismek.onlinesinav.entity.Sorular;
 
 import java.util.List;
@@ -20,6 +21,10 @@ public interface IRestService {
 
     @GET("sinav/findSorularBySinavId/{sinavid}")
     Call<BaseReturn<List<Sorular>>> getQuestions(@Header("Authorization") String authkey, @Path("sinavid") long sinavId);
+
+    @GET("kullanicitosinav/findSinavListByKullaniciId/{kullaniciId}")
+    Call<List<Sinav>> getSinav(@Header("Authorization") String authkey, @Path("kullaniciId") long kullaniciId);
+
 
     @GET("/")
     Call<Ip> IpAdressFind(@Query("format") String format);

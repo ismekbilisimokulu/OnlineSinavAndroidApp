@@ -11,8 +11,8 @@
     <dimen name="title_login_text_size">22sp</dimen>
     <dimen name="logo_width">200dp</dimen>
     <dimen name="logo_height">180dp</dimen>
-    <dimen name="katil_width">130dp</dimen>
-    <dimen name="katil_height">52dp</dimen>
+    <dimen name="katil_width">87dp</dimen>
+    <dimen name="katil_height">35dp</dimen>
     <dimen name="bitir_width">115dp</dimen>
     <dimen name="bitir_height">60dp</dimen>
     <dimen name="choices_width">50dp</dimen>
