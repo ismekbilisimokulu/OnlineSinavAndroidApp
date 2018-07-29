@@ -12,11 +12,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.ismek.onlinesinav.entity.BaseReturn;
+import com.ismek.onlinesinav.entity.Kullanici;
 import com.ismek.onlinesinav.entity.KullaniciToSinav;
 import com.ismek.onlinesinav.entity.Sinav;
 import com.ismek.onlinesinav.entity.Sorular;
@@ -41,8 +43,8 @@ import com.ismek.onlinesinav.ws.IRestService;
 
 public class SinavActivity extends BaseActivity {
 
-    @BindView(R.id.webView)
-    public WebView webView;
+    //@BindView(R.id.webView)
+    //public WebView webView;
 
     @BindView(R.id.spGit)
     public Spinner spGit;
@@ -74,6 +76,9 @@ public class SinavActivity extends BaseActivity {
     @BindView(R.id.txtSinavBilgiAdi)
     public TextView txtSinavBilgiAdi;
 
+    @BindView(R.id.rlWebview)
+    public RelativeLayout rlWebview;
+
     List<String> listSpinner;
 
     HashMap<Integer, String> answers;
@@ -89,6 +94,8 @@ public class SinavActivity extends BaseActivity {
 
     private KullaniciToSinav sinav;
 
+    WebView webView;
+
     Gson gson;
 
     @Override
@@ -99,33 +106,13 @@ public class SinavActivity extends BaseActivity {
         //sinav = getIntent().getParcelableExtra("sinav");
 
         txtSinavBilgiAdi.setText(sinav.getSinav().getBransId().getBransAdi());
-        txtSinavBilgiSorular.setText("1/"+sinav.getSinav().getSoruSayisi());
+
 
         answers = new HashMap<Integer, String>();
 
-        webViewSettings();
+
 
         createQuestionList();
-
-
-
-
-
-        goToQuestions();
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.SECOND,-30);
-        Date now = new Date();
-
-        gecensure = now.getTime()-calendar.getTime().getTime();
-        sinavSuresi = 60* 60 * 1000;
-        kalansure = sinavSuresi - gecensure;
-
-        TimerTask timerTask = new CountDownTimerTask();
-        //running timer task as daemon thread
-        Timer timer = new Timer(true);
-        timer.scheduleAtFixedRate(timerTask, 0, 1 * 1000);
-
 
     }
 
@@ -147,7 +134,29 @@ public class SinavActivity extends BaseActivity {
                 {
                     sorulars = resp;
                     lengthOfSorular = sorulars.size();
+                    txtSinavBilgiSorular.setText("1/"+lengthOfSorular);
+                    webView = new WebView(SinavActivity.this);
+                    webViewSettings();
                     webView.loadData(sorulars.get(0).getSoru(), "text/html", "UTF-8");
+                    rlWebview.addView(webView);
+                    listSpinner = new ArrayList();
+
+                    for (int i = 1; i < lengthOfSorular + 1; i++) {
+                        listSpinner.add(i + ". Soru");
+                    }
+                    goToQuestions();
+
+
+                    Date now = new Date();
+
+                    gecensure = now.getTime()-sinav.getSinav().getSinavTarihi().getTime();
+                    sinavSuresi = sinav.getSinav().getSinavSuresi()* 60 * 1000;
+                    kalansure = sinavSuresi - gecensure;
+
+                    TimerTask timerTask = new CountDownTimerTask();
+                    //running timer task as daemon thread
+                    Timer timer = new Timer(true);
+                    timer.scheduleAtFixedRate(timerTask, 0, 1 * 1000);
                 }
                 else{
                     showAlertDialog("Sınav verileri alınırken bir hata meydana geldi!",View.VISIBLE,View.GONE,getString(R.string.ok),"",new Callable<Void>() {
@@ -212,6 +221,9 @@ public class SinavActivity extends BaseActivity {
     }
 
     public void webViewSettings(){
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        webView.setLayoutParams(params);
+
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.setWebViewClient(new WebViewClient());
@@ -219,11 +231,7 @@ public class SinavActivity extends BaseActivity {
     }
 
     public void goToQuestions() {
-        listSpinner = new ArrayList();
 
-        for (int i = 1; i < lengthOfSorular + 1; i++) {
-            listSpinner.add(i + ". Soru");
-        }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 R.layout.spinner_item, listSpinner);
@@ -238,7 +246,13 @@ public class SinavActivity extends BaseActivity {
 
                 secenekOlustur(secenekSayisi);
 
+                rlWebview.removeAllViews();
+                webView = new WebView(SinavActivity.this);
+                rlWebview.addView(webView);
+                webViewSettings();
+
                 webView.loadData(soruHtml, "text/html", "UTF-8");
+
                 current_page = position;
 
                 txtSinavBilgiSorular.setText((current_page + 1) + "/" + lengthOfSorular);
@@ -271,7 +285,10 @@ public class SinavActivity extends BaseActivity {
             secenekSayisi = soru.getSecenekSayisi();
 
             secenekOlustur(secenekSayisi);
-            webView.loadUrl("about:blank");
+            rlWebview.removeAllViews();
+            webView = new WebView(SinavActivity.this);
+            rlWebview.addView(webView);
+            webViewSettings();
             webView.loadData(soruHtml, "text/html", "UTF-8");
             spGit.setSelection(current_page); //Spinner'ın seçilenini şuanki soru yapar.(Yoksa 1.Soruya gitmiyor!)
 
@@ -299,7 +316,10 @@ public class SinavActivity extends BaseActivity {
             secenekSayisi = soru.getSecenekSayisi();
 
             secenekOlustur(secenekSayisi);
-            webView.loadUrl("about:blank");
+            rlWebview.removeAllViews();
+            webView = new WebView(SinavActivity.this);
+            rlWebview.addView(webView);
+            webViewSettings();
             webView.loadData(soruHtml, "text/html", "UTF-8");
             spGit.setSelection(current_page);
 
@@ -383,11 +403,48 @@ public class SinavActivity extends BaseActivity {
 
         showAlertDialog("Sınavı bitirmek istediğinize emin misiniz?",View.VISIBLE,View.VISIBLE,"Evet", "Hayır",new Callable<Void>() {
             public Void call() {
+
+                progressDialog.show();
                 String cevaplar = sendAnswers();
-                showToast(cevaplar);
-                Intent i = new Intent(SinavActivity.this,SinavSonuc.class);
-                startActivity(i);
-                finish();
+                sinav.setOgrCevap(cevaplar);
+                IRestService iService = ApiClient.getClient(SinavActivity.this).create(IRestService.class);
+                Call<BaseReturn<String>> call = iService.sendAnswers(Utils.getAuthToken(), sinav);
+                call.enqueue(new Callback<BaseReturn<String>>() {
+                    @Override
+                    public void onResponse(Call<BaseReturn<String>> call, Response<BaseReturn<String>> response) {
+                        BaseReturn<String> resp = response.body();
+                        Log.d("ISMEKKK",""+response.body());
+
+                        progressDialog.dismiss();
+
+                        if (resp != null && ApplicationConstant.SUCCESS_CODE.equals(resp.getCode())){
+                            Intent i = new Intent(SinavActivity.this,SinavSonuc.class);
+                            startActivity(i);
+                            finish();
+                        }else{
+                            showAlertDialog("Hata oluştu! Lütfen sistem yöneticinizle görüşün!",View.VISIBLE,View.GONE,getString(R.string.ok),"",new Callable<Void>() {
+                                public Void call() {
+                                    return null;
+                                }
+                            });
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<BaseReturn<String>> call, Throwable t) {
+                        progressDialog.dismiss();
+                        showAlertDialog("Hata oluştu! Lütfen sistem yöneticinizle görüşün!",View.VISIBLE,View.GONE,getString(R.string.ok),"",new Callable<Void>() {
+                            public Void call() {
+                                return null;
+                            }
+                        });
+                    }
+                });
+
+
+
                 return null;
             }
         });
@@ -427,10 +484,43 @@ public class SinavActivity extends BaseActivity {
 
             if (kalansure == 0){
                 cancel();
-                String cevaplar = sendAnswersTimeout();
-                Intent i = new Intent(SinavActivity.this,SinavSonuc.class);
-                startActivity(i);
-                finish();
+                String cevaplar = sendAnswers();
+                sinav.setOgrCevap(cevaplar);
+                IRestService iService = ApiClient.getClient(SinavActivity.this).create(IRestService.class);
+                Call<BaseReturn<String>> call = iService.sendAnswers(Utils.getAuthToken(), sinav);
+                call.enqueue(new Callback<BaseReturn<String>>() {
+                    @Override
+                    public void onResponse(Call<BaseReturn<String>> call, Response<BaseReturn<String>> response) {
+                        BaseReturn<String> resp = response.body();
+                        Log.d("ISMEKKK",""+response.body());
+
+                        progressDialog.dismiss();
+
+                        if (resp != null && ApplicationConstant.SUCCESS_CODE.equals(resp.getCode())){
+                            Intent i = new Intent(SinavActivity.this,SinavSonuc.class);
+                            startActivity(i);
+                            finish();
+                        }else{
+                            showAlertDialog("Hata oluştu! Lütfen sistem yöneticinizle görüşün!",View.VISIBLE,View.GONE,getString(R.string.ok),"",new Callable<Void>() {
+                                public Void call() {
+                                    return null;
+                                }
+                            });
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<BaseReturn<String>> call, Throwable t) {
+                        progressDialog.dismiss();
+                        showAlertDialog("Hata oluştu! Lütfen sistem yöneticinizle görüşün!",View.VISIBLE,View.GONE,getString(R.string.ok),"",new Callable<Void>() {
+                            public Void call() {
+                                return null;
+                            }
+                        });
+                    }
+                });
             }
 
             kalansure -= 1 * 1000;
@@ -439,25 +529,6 @@ public class SinavActivity extends BaseActivity {
     }
 
     private String sendAnswers() {
-
-        StringBuilder builder = new StringBuilder();
-
-        for (int i = 1; i < lengthOfSorular + 1 ; i++) {
-
-            if (!TextUtils.isEmpty(answers.get(i))){
-                builder.append(answers.get(i));
-            }
-            else{
-                builder.append(" ");
-            }
-        }
-
-        String result = builder.toString();
-
-        return result;
-    }
-
-    private String sendAnswersTimeout() {
 
         StringBuilder builder = new StringBuilder();
 

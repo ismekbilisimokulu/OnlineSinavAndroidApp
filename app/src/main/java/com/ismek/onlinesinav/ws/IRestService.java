@@ -10,8 +10,10 @@ import com.ismek.onlinesinav.entity.Sorular;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -26,6 +28,8 @@ public interface IRestService {
     @GET("kullanicitosinav/findSinavListByKullaniciId/{kullaniciId}")
     Call<List<KullaniciToSinav>> getSinav(@Header("Authorization") String authkey, @Path("kullaniciId") long kullaniciId);
 
+    @POST("kullanicitosinav/save")
+    Call<BaseReturn<String>> sendAnswers(@Header("Authorization") String authkey, @Body KullaniciToSinav kts);
 
     @GET("/")
     Call<Ip> IpAdressFind(@Query("format") String format);

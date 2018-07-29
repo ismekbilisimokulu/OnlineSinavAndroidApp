@@ -82,14 +82,23 @@
     </LinearLayout>
 
 
-    <WebView
+    <RelativeLayout
+        android:id="@+id/rlWebview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/sorualani"
+        android:layout_below="@id/llInfo"
+        android:layout_above="@id/ll_choices">
+
+    </RelativeLayout>
+    <!-- <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@mipmap/sorualani"
         android:layout_below="@id/llInfo"
         android:layout_above="@id/ll_choices">
-    </WebView>
+    </WebView> -->
 
 
     <LinearLayout
