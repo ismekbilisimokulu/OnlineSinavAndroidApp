@@ -1,11 +1,14 @@
 package com.ismek.onlinesinav.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-public class Kullanici{
+public class Kullanici implements Parcelable{
 
     private long kullaniciId;
 
@@ -37,6 +40,30 @@ public class Kullanici{
 
 
     }
+
+    protected Kullanici(Parcel in) {
+        kullaniciId = in.readLong();
+        tcNo = in.readString();
+        ad = in.readString();
+        soyAdi = in.readString();
+        telefon = in.readString();
+        mail = in.readString();
+        cinsiyet = in.readString();
+        sinav = in.createTypedArrayList(Sinav.CREATOR);
+        kullaniciToSinav = in.createTypedArrayList(KullaniciToSinav.CREATOR);
+    }
+
+    public static final Creator<Kullanici> CREATOR = new Creator<Kullanici>() {
+        @Override
+        public Kullanici createFromParcel(Parcel in) {
+            return new Kullanici(in);
+        }
+
+        @Override
+        public Kullanici[] newArray(int size) {
+            return new Kullanici[size];
+        }
+    };
 
     public long getKullaniciId() {
         return kullaniciId;
@@ -140,5 +167,23 @@ public class Kullanici{
 
     public void setKullaniciToSinav(List<KullaniciToSinav> kullaniciToSinav) {
         this.kullaniciToSinav = kullaniciToSinav;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(kullaniciId);
+        parcel.writeString(tcNo);
+        parcel.writeString(ad);
+        parcel.writeString(soyAdi);
+        parcel.writeString(telefon);
+        parcel.writeString(mail);
+        parcel.writeString(cinsiyet);
+        parcel.writeTypedList(sinav);
+        parcel.writeTypedList(kullaniciToSinav);
     }
 }

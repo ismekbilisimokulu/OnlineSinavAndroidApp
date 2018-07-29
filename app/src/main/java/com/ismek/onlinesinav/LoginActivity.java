@@ -60,7 +60,12 @@ public class LoginActivity extends BaseActivity {
                         progressDialog.dismiss();
 
                         if (resp != null && ApplicationConstant.SUCCESS_CODE.equals(resp.getCode()))
-                            Log.d("ISMEKKK",resp.toString());
+                        {
+                            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                            i.putExtra("kullanici", resp.getData());
+                            startActivity(i);
+                        }
+
                         else{
                             showAlertDialog("TC No veya Telefon No Yanlış!",View.VISIBLE,View.GONE,getString(R.string.ok),"",new Callable<Void>() {
                                 public Void call() {
