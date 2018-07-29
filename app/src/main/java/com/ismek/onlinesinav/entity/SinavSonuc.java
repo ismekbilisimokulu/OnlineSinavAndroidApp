@@ -1,6 +1,9 @@
 package com.ismek.onlinesinav.entity;
 
-public class SinavSonuc {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class SinavSonuc implements Parcelable {
 
     private long sSonucId;
 
@@ -61,4 +64,43 @@ public class SinavSonuc {
     public void setKts(KullaniciToSinav kts) {
         this.kts = kts;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.sSonucId);
+        dest.writeValue(this.dSayisi);
+        dest.writeValue(this.ySayisi);
+        dest.writeValue(this.bosSayisi);
+        dest.writeValue(this.sonPuan);
+        dest.writeParcelable(this.kts, flags);
+    }
+
+    public SinavSonuc() {
+    }
+
+    protected SinavSonuc(Parcel in) {
+        this.sSonucId = in.readLong();
+        this.dSayisi = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.ySayisi = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.bosSayisi = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.sonPuan = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.kts = in.readParcelable(KullaniciToSinav.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<SinavSonuc> CREATOR = new Parcelable.Creator<SinavSonuc>() {
+        @Override
+        public SinavSonuc createFromParcel(Parcel source) {
+            return new SinavSonuc(source);
+        }
+
+        @Override
+        public SinavSonuc[] newArray(int size) {
+            return new SinavSonuc[size];
+        }
+    };
 }

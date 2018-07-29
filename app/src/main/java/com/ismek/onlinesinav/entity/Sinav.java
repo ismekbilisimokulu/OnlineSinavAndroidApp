@@ -4,6 +4,8 @@ package com.ismek.onlinesinav.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +33,7 @@ public class Sinav implements Parcelable{
 
     private Kullanici ogretmenId;
 
+    @SerializedName(value="brans")
     private Brans bransId;
 
     private List<Sorular> sorulars;

@@ -1,6 +1,9 @@
 package com.ismek.onlinesinav.entity;
 
-public class SoruAnaliz {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class SoruAnaliz implements Parcelable {
 
     private long analizId;
 
@@ -52,4 +55,41 @@ public class SoruAnaliz {
     public void setSoru(Sorular soru) {
         this.soru = soru;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.analizId);
+        dest.writeValue(this.dogruSayisi);
+        dest.writeValue(this.yanlisSayisi);
+        dest.writeValue(this.bosSayisi);
+        dest.writeParcelable(this.soru, flags);
+    }
+
+    public SoruAnaliz() {
+    }
+
+    protected SoruAnaliz(Parcel in) {
+        this.analizId = in.readLong();
+        this.dogruSayisi = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.yanlisSayisi = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.bosSayisi = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.soru = in.readParcelable(Sorular.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<SoruAnaliz> CREATOR = new Parcelable.Creator<SoruAnaliz>() {
+        @Override
+        public SoruAnaliz createFromParcel(Parcel source) {
+            return new SoruAnaliz(source);
+        }
+
+        @Override
+        public SoruAnaliz[] newArray(int size) {
+            return new SoruAnaliz[size];
+        }
+    };
 }

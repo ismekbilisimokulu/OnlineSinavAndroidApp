@@ -12,10 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.ismek.onlinesinav.Adapter.SinavListAdapter;
 import com.ismek.onlinesinav.Listener.SinavListener;
 import com.ismek.onlinesinav.entity.BaseReturn;
 import com.ismek.onlinesinav.entity.Kullanici;
+import com.ismek.onlinesinav.entity.KullaniciToSinav;
 import com.ismek.onlinesinav.entity.Sinav;
 import com.ismek.onlinesinav.util.ApplicationConstant;
 import com.ismek.onlinesinav.util.Utils;
@@ -40,15 +42,17 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.headerTxt)
     public TextView headerTxt;
 
-    private List<Sinav> sinavList;
+    private List<KullaniciToSinav> sinavList;
     private SinavListAdapter adapter;
 
     private Kullanici kullanici;
 
+    Gson gson;
+
     @Override
     protected void onViewReady(Bundle savedInstanceState, Intent intent) {
         super.onViewReady(savedInstanceState, intent);
-
+        gson = new Gson();
         kullanici = getIntent().getParcelableExtra("kullanici");
         headerTxt.setText("Hoşgeldiniz ,\n"+kullanici.getAd()+" "+kullanici.getSoyAdi());
         getSinavList();
@@ -62,10 +66,10 @@ public class MainActivity extends BaseActivity {
         sinavList = new ArrayList<>();
             progressDialog.show();
             IRestService iService = ApiClient.getClient(MainActivity.this).create(IRestService.class);
-            Call<List<Sinav>> call = iService.getSinav(Utils.getAuthToken(),kullanici.getKullaniciId());
-            call.enqueue(new Callback<List<Sinav>>() {
+            Call<List<KullaniciToSinav>> call = iService.getSinav(Utils.getAuthToken(),kullanici.getKullaniciId());
+            call.enqueue(new Callback<List<KullaniciToSinav>>() {
                 @Override
-                public void onResponse(Call<List<Sinav>> call, Response<List<Sinav>> response) {
+                public void onResponse(Call<List<KullaniciToSinav>> call, Response<List<KullaniciToSinav>> response) {
                     sinavList = response.body();
                     Log.d("ISMEKKK",""+response.code());
 
@@ -77,7 +81,8 @@ public class MainActivity extends BaseActivity {
                             public void onClicked(View view, int position) {
                                 Intent i = new Intent(MainActivity.this,SinavActivity.class);
                                 Bundle b = new Bundle();
-                                b.putParcelable("sinav",sinavList.get(position));
+                                b.putString("sinavjson",gson.toJson(sinavList.get(position)));
+                                //b.putParcelable("sinav",sinavList.get(position));
                                 i.putExtras(b);
                                 startActivity(i);
                             }
@@ -90,7 +95,7 @@ public class MainActivity extends BaseActivity {
                 }
 
                 @Override
-                public void onFailure(Call<List<Sinav>> call, Throwable t) {
+                public void onFailure(Call<List<KullaniciToSinav>> call, Throwable t) {
                     progressDialog.dismiss();
                     showAlertDialog("Hata oluştu! Lütfen sistem yöneticinizle görüşün!",View.VISIBLE,View.GONE,getString(R.string.ok),"",new Callable<Void>() {
                         public Void call() {

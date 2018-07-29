@@ -1,6 +1,9 @@
 package com.ismek.onlinesinav.entity;
 
-public class MulakatCevaplari {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class MulakatCevaplari implements Parcelable {
 
     private long mCevapId;
 
@@ -44,4 +47,39 @@ public class MulakatCevaplari {
     public void setMulakat(Mulakat mulakat) {
         this.mulakat = mulakat;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.mCevapId);
+        dest.writeString(this.cevap);
+        dest.writeParcelable(this.ktsId, flags);
+        dest.writeParcelable(this.mulakat, flags);
+    }
+
+    public MulakatCevaplari() {
+    }
+
+    protected MulakatCevaplari(Parcel in) {
+        this.mCevapId = in.readLong();
+        this.cevap = in.readString();
+        this.ktsId = in.readParcelable(KullaniciToSinav.class.getClassLoader());
+        this.mulakat = in.readParcelable(Mulakat.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<MulakatCevaplari> CREATOR = new Parcelable.Creator<MulakatCevaplari>() {
+        @Override
+        public MulakatCevaplari createFromParcel(Parcel source) {
+            return new MulakatCevaplari(source);
+        }
+
+        @Override
+        public MulakatCevaplari[] newArray(int size) {
+            return new MulakatCevaplari[size];
+        }
+    };
 }

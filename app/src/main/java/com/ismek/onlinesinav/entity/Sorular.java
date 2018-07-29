@@ -1,9 +1,12 @@
 package com.ismek.onlinesinav.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 import java.util.List;
 
-public class Sorular {
+public class Sorular implements Parcelable {
 
     private long soruId;
 
@@ -137,4 +140,54 @@ public class Sorular {
         this.soruanaliz = soruanaliz;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.soruId);
+        dest.writeString(this.soru);
+        dest.writeString(this.secenekler);
+        dest.writeString(this.secenekSayisi);
+        dest.writeString(this.cevap);
+        dest.writeLong(this.eklemeTarihi != null ? this.eklemeTarihi.getTime() : -1);
+        dest.writeValue(this.soruPuan);
+        dest.writeValue(this.isOnay);
+        dest.writeValue(this.isAktif);
+        dest.writeString(this.zorlukSeviyesi);
+        dest.writeParcelable(this.kullanici, flags);
+        dest.writeTypedList(this.brans);
+        dest.writeParcelable(this.soruanaliz, flags);
+    }
+
+    protected Sorular(Parcel in) {
+        this.soruId = in.readLong();
+        this.soru = in.readString();
+        this.secenekler = in.readString();
+        this.secenekSayisi = in.readString();
+        this.cevap = in.readString();
+        long tmpEklemeTarihi = in.readLong();
+        this.eklemeTarihi = tmpEklemeTarihi == -1 ? null : new Date(tmpEklemeTarihi);
+        this.soruPuan = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.isOnay = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.isAktif = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.zorlukSeviyesi = in.readString();
+        this.kullanici = in.readParcelable(Kullanici.class.getClassLoader());
+        this.brans = in.createTypedArrayList(Brans.CREATOR);
+        this.soruanaliz = in.readParcelable(SoruAnaliz.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Sorular> CREATOR = new Parcelable.Creator<Sorular>() {
+        @Override
+        public Sorular createFromParcel(Parcel source) {
+            return new Sorular(source);
+        }
+
+        @Override
+        public Sorular[] newArray(int size) {
+            return new Sorular[size];
+        }
+    };
 }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.ismek.onlinesinav.Listener.SinavListener;
 import com.ismek.onlinesinav.R;
+import com.ismek.onlinesinav.entity.KullaniciToSinav;
 import com.ismek.onlinesinav.entity.Sinav;
 
 import java.text.SimpleDateFormat;
@@ -24,10 +25,10 @@ public class SinavListAdapter extends Adapter<SinavListAdapter.SinavViewHolder>{
 
     private SimpleDateFormat formatter= new SimpleDateFormat("dd.MM.yyyy HH:mm");
     private Context context;
-    private List<Sinav> sinavList;
+    private List<KullaniciToSinav> sinavList;
     private SinavListener listener;
 
-    public SinavListAdapter(Context context, List<Sinav> list, SinavListener listener) {
+    public SinavListAdapter(Context context, List<KullaniciToSinav> list, SinavListener listener) {
         this.context = context;
         this.sinavList = list;
         this.listener = listener;
@@ -42,16 +43,16 @@ public class SinavListAdapter extends Adapter<SinavListAdapter.SinavViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull SinavViewHolder holder, int position) {
-        Sinav sinav = sinavList.get(position);
+        KullaniciToSinav sinav = sinavList.get(position);
 
-        holder.txtSinavAdi.setText("");
+        holder.txtSinavAdi.setText(sinav.getSinav().getBransId().getBransAdi());
 
-        if (sinav.getSinavTarihi() != null)
-            holder.txtSinavZamani.setText(formatter.format(sinav.getSinavTarihi()));
+        if (sinav.getSinav().getSinavTarihi() != null)
+            holder.txtSinavZamani.setText(formatter.format(sinav.getSinav().getSinavTarihi()));
         else
             holder.txtSinavZamani.setText("Sinav Tarihi");
 
-        holder.txtSinavSalonu.setText("Salon NO: "+sinav.getSinavSalonu());
+        holder.txtSinavSalonu.setText("Salon NO: "+sinav.getSinav().getSinavSalonu());
     }
 
     @Override

@@ -5,6 +5,8 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.Date;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -22,13 +24,15 @@ public class ApiClient {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
-        Gson gson = new GsonBuilder().create();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateDeserializer())
+                .create();
         if (retrofit==null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create(gson))
-                    .addConverterFactory(ScalarsConverterFactory.create())
+                        .addConverterFactory(ScalarsConverterFactory.create())
                     .build();
         }
         return retrofit;

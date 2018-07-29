@@ -15,7 +15,9 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.ismek.onlinesinav.entity.BaseReturn;
+import com.ismek.onlinesinav.entity.KullaniciToSinav;
 import com.ismek.onlinesinav.entity.Sinav;
 import com.ismek.onlinesinav.entity.Sorular;
 import java.util.ArrayList;
@@ -85,18 +87,29 @@ public class SinavActivity extends BaseActivity {
 
     long gecensure,sinavSuresi,kalansure;
 
+    private KullaniciToSinav sinav;
+
+    Gson gson;
 
     @Override
     protected void onViewReady(Bundle savedInstanceState, Intent intent) {
         super.onViewReady(savedInstanceState, intent);
+        gson = new Gson();
+        sinav = gson.fromJson(getIntent().getStringExtra("sinavjson"),KullaniciToSinav.class);
+        //sinav = getIntent().getParcelableExtra("sinav");
+
+        txtSinavBilgiAdi.setText(sinav.getSinav().getBransId().getBransAdi());
+        txtSinavBilgiSorular.setText("1/"+sinav.getSinav().getSoruSayisi());
 
         answers = new HashMap<Integer, String>();
+
+        webViewSettings();
 
         createQuestionList();
 
 
 
-        webViewSettings();
+
 
         goToQuestions();
 
@@ -119,30 +132,22 @@ public class SinavActivity extends BaseActivity {
     public void createQuestionList(){
 
         Bundle bundle = getIntent().getExtras();
-        Sinav sinav = bundle.getParcelable("sinav");
-
-        //long sinavId = sinav.getSinavId();
-        //txtSinavBilgiAdi.setText(sinav.getBransId().getBransAdi());
-        txtSinavBilgiAdi.setText("Android");
-
-        long sinavId = 1;
 
         progressDialog.show();
 
         IRestService iService = ApiClient.getClient(SinavActivity.this).create(IRestService.class);
-        Call<BaseReturn<List<Sorular>>> call = iService.getQuestions(Utils.getAuthToken(), sinavId);
-        call.enqueue(new Callback<BaseReturn<List<Sorular>>>() {
+        Call<List<Sorular>> call = iService.getQuestions(Utils.getAuthToken(), sinav.getSinav().getSinavId());
+        call.enqueue(new Callback<List<Sorular>>() {
             @Override
-            public void onResponse(Call<BaseReturn<List<Sorular>>> call, Response<BaseReturn<List<Sorular>>> response) {
-                BaseReturn<List<Sorular>> resp = response.body();
-                Log.d("ISMEKKK",""+response.code());
+            public void onResponse(Call<List<Sorular>> call, Response<List<Sorular>> response) {
+                List<Sorular> resp = response.body();
 
                 progressDialog.dismiss();
-                if (resp != null && ApplicationConstant.SUCCESS_CODE.equals(resp.getCode()))
+                if (resp != null && resp.size() > 0)
                 {
-                    sorulars = resp.getData();
+                    sorulars = resp;
                     lengthOfSorular = sorulars.size();
-                    Log.d("ISMEKKK",resp.toString());
+                    webView.loadData(sorulars.get(0).getSoru(), "text/html", "UTF-8");
                 }
                 else{
                     showAlertDialog("Sınav verileri alınırken bir hata meydana geldi!",View.VISIBLE,View.GONE,getString(R.string.ok),"",new Callable<Void>() {
@@ -155,10 +160,11 @@ public class SinavActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<BaseReturn<List<Sorular>>> call, Throwable t) {
+            public void onFailure(Call<List<Sorular>> call, Throwable t) {
                 progressDialog.dismiss();
                 showAlertDialog("Hata oluştu! Lütfen sistem yöneticinizle görüşün!",View.VISIBLE,View.GONE,getString(R.string.ok),"",new Callable<Void>() {
                     public Void call() {
+                        finish();
                         return null;
                     }
                 });
@@ -208,7 +214,6 @@ public class SinavActivity extends BaseActivity {
     public void webViewSettings(){
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBuiltInZoomControls(true);
-        webView.loadData(soruHtml, "text/html", "UTF-8");
         webView.setWebViewClient(new WebViewClient());
         webView.setBackgroundColor(Color.argb(1, 255, 255, 255));
     }
@@ -259,13 +264,14 @@ public class SinavActivity extends BaseActivity {
     public void changeQuestionForward(View view){
 
         if (current_page < lengthOfSorular-1){
-            current_page ++;
-            soruHtml = sorulars.get(current_page).getSoru();  //sonraki soruyu alır.
+            current_page += 1;
+            Sorular soru = sorulars.get(current_page);
+            soruHtml = soru.getSoru();  //sonraki soruyu alır.
 
-            secenekSayisi = sorulars.get(current_page).getSecenekSayisi();
+            secenekSayisi = soru.getSecenekSayisi();
 
             secenekOlustur(secenekSayisi);
-
+            webView.loadUrl("about:blank");
             webView.loadData(soruHtml, "text/html", "UTF-8");
             spGit.setSelection(current_page); //Spinner'ın seçilenini şuanki soru yapar.(Yoksa 1.Soruya gitmiyor!)
 
@@ -286,13 +292,14 @@ public class SinavActivity extends BaseActivity {
     public void changeQuestionBackward(View view){
 
         if (current_page > 0){
-            current_page--;
-            soruHtml = sorulars.get(current_page).getSoru();  //önceki soruyu alır.
+            current_page -= 1;
+            Sorular soru = sorulars.get(current_page);
+            soruHtml = soru.getSoru();  //önceki soruyu alır.
 
-            secenekSayisi = sorulars.get(current_page).getSecenekSayisi();
+            secenekSayisi = soru.getSecenekSayisi();
 
             secenekOlustur(secenekSayisi);
-
+            webView.loadUrl("about:blank");
             webView.loadData(soruHtml, "text/html", "UTF-8");
             spGit.setSelection(current_page);
 
